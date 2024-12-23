@@ -1,0 +1,75 @@
+# Copyright (c) 2024 VEXXHOST, Inc.
+# SPDX-License-Identifier: GPL-3.0-only
+
+package:
+  name: py3-wsme
+  description: Simplify the writing of REST APIs, and extend them with additional protocols.
+  version: 0.12.1
+  epoch: 0
+  copyright:
+    - license: MIT
+  dependencies:
+    provider-priority: 0
+
+vars:
+  pypi-package: wsme
+  import: wsme
+
+data:
+  - name: py-versions
+    items:
+      3.10: '310'
+
+environment:
+  contents:
+    packages:
+      - py3-supported-build-base
+      - py3-supported-pbr
+
+pipeline:
+  - uses: git-checkout
+    with:
+      repository: https://opendev.org/x/wsme
+      tag: ${{package.version}}
+      expected-commit: 9dc40bf22b15bfd8f18c09a0db7510a2dd2c3e97
+  - uses: py/validate-pbr-version
+
+subpackages:
+  - range: py-versions
+    name: py${{range.key}}-${{vars.pypi-package}}
+    description: python${{range.key}} version of ${{vars.pypi-package}}
+    dependencies:
+      provider-priority: ${{range.value}}
+      provides:
+        - py3-${{vars.pypi-package}}
+      runtime:
+        - py${{range.key}}-importlib-metadata=~6.11.0
+        - py${{range.key}}-netaddr=~0.10.1
+        - py${{range.key}}-pytz=~2024.1
+        - py${{range.key}}-simplegeneric=~0.8.1
+        - py${{range.key}}-webob=~1.8.8
+    pipeline:
+      - uses: py/build-wheel
+        with:
+          python: python${{range.key}}
+      - uses: strip
+    test:
+      pipeline:
+        - uses: python/import
+          with:
+            python: python${{range.key}}
+            imports: |
+              import ${{vars.import}}
+
+  - name: py3-supported-${{vars.pypi-package}}
+    description: meta package providing ${{vars.pypi-package}} for supported python versions.
+    dependencies:
+      runtime:
+        - py3.10-${{vars.pypi-package}}
+
+test:
+  pipeline:
+    - uses: python/import
+      with:
+        imports: |
+          import ${{vars.import}}

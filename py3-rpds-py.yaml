@@ -1,0 +1,71 @@
+# Copyright (c) 2024 VEXXHOST, Inc.
+# SPDX-License-Identifier: GPL-3.0-only
+
+package:
+  name: py3-rpds-py
+  description: Python bindings to Rust's persistent data structures (rpds)
+  version: 0.20.0
+  epoch: 0
+  copyright:
+    - license: MIT
+  dependencies:
+    provider-priority: 0
+
+vars:
+  pypi-package: rpds-py
+  import: rpds
+
+data:
+  - name: py-versions
+    items:
+      3.10: '310'
+
+environment:
+  contents:
+    packages:
+      - build-base
+      - maturin
+      - py3-supported-build-base
+      - py3-supported-maturin
+      - rust
+
+pipeline:
+  - uses: git-checkout
+    with:
+      repository: https://github.com/crate-py/rpds
+      tag: v${{package.version}}
+      expected-commit: c95a3d2a5dfcb1f4a51b7318f0ce80c277425df7
+
+subpackages:
+  - range: py-versions
+    name: py${{range.key}}-${{vars.pypi-package}}
+    description: python${{range.key}} version of ${{vars.pypi-package}}
+    dependencies:
+      provider-priority: ${{range.value}}
+      provides:
+        - py3-${{vars.pypi-package}}
+    pipeline:
+      - uses: py/build-wheel
+        with:
+          python: python${{range.key}}
+      - uses: strip
+    test:
+      pipeline:
+        - uses: python/import
+          with:
+            python: python${{range.key}}
+            imports: |
+              import ${{vars.import}}
+
+  - name: py3-supported-${{vars.pypi-package}}
+    description: meta package providing ${{vars.pypi-package}} for supported python versions.
+    dependencies:
+      runtime:
+        - py3.10-${{vars.pypi-package}}
+
+test:
+  pipeline:
+    - uses: python/import
+      with:
+        imports: |
+          import ${{vars.import}}

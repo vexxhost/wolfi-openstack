@@ -1,0 +1,100 @@
+# Copyright (c) 2024 VEXXHOST, Inc.
+# SPDX-License-Identifier: GPL-3.0-only
+
+package:
+  name: py3-zaqar
+  description: OpenStack Queuing and Notification Service
+  version: 19.0.0
+  epoch: 0
+  copyright:
+    - license: Apache-2.0
+  dependencies:
+    provider-priority: 0
+
+vars:
+  pypi-package: zaqar
+  import: zaqar
+
+data:
+  - name: py-versions
+    items:
+      3.10: '310'
+
+environment:
+  contents:
+    packages:
+      - py3-supported-build-base
+      - py3-supported-pbr
+
+pipeline:
+  - uses: git-checkout
+    with:
+      repository: https://opendev.org/openstack/zaqar
+      tag: ${{package.version}}
+      expected-commit: cb9a501ea86cdcbffb189a2be00cb9fd5254126d
+  - uses: py/validate-pbr-version
+
+subpackages:
+  - range: py-versions
+    name: py${{range.key}}-${{vars.pypi-package}}
+    description: python${{range.key}} version of ${{vars.pypi-package}}
+    dependencies:
+      provider-priority: ${{range.value}}
+      provides:
+        - py3-${{vars.pypi-package}}
+      runtime:
+        - py${{range.key}}-alembic=~1.13.2
+        - py${{range.key}}-autobahn=~24.4.2
+        - py${{range.key}}-babel=~2.16.0
+        - py${{range.key}}-cryptography=~42.0.8
+        - py${{range.key}}-falcon=~3.1.3
+        - py${{range.key}}-futurist=~3.0.0
+        - py${{range.key}}-iso8601=~2.1.0
+        - py${{range.key}}-jsonschema=~4.19.2
+        - py${{range.key}}-keystonemiddleware=~10.7.1
+        - py${{range.key}}-msgpack=~1.0.8
+        - py${{range.key}}-oslo-cache=~3.8.0
+        - py${{range.key}}-oslo-concurrency=~6.1.0
+        - py${{range.key}}-oslo-config=~9.6.0
+        - py${{range.key}}-oslo-context=~5.6.0
+        - py${{range.key}}-oslo-db=~16.0.0
+        - py${{range.key}}-oslo-i18n=~6.4.0
+        - py${{range.key}}-oslo-log=~6.1.2
+        - py${{range.key}}-oslo-messaging=~14.9.1
+        - py${{range.key}}-oslo-policy=~4.4.0
+        - py${{range.key}}-oslo-reports=~3.4.0
+        - py${{range.key}}-oslo-serialization=~5.5.0
+        - py${{range.key}}-oslo-upgradecheck=~2.4.0
+        - py${{range.key}}-oslo-utils=~7.3.0
+        - py${{range.key}}-osprofiler=~4.2.0
+        - py${{range.key}}-pbr=~6.1.0
+        - py${{range.key}}-python-swiftclient=~4.6.0
+        - py${{range.key}}-requests=~2.32.3
+        - py${{range.key}}-sqlalchemy=~2.0.32
+        - py${{range.key}}-stevedore=~5.3.0
+        - py${{range.key}}-webob=~1.8.8
+    pipeline:
+      - uses: py/build-wheel
+        with:
+          python: python${{range.key}}
+      - uses: strip
+    test:
+      pipeline:
+        - uses: python/import
+          with:
+            python: python${{range.key}}
+            imports: |
+              import ${{vars.import}}
+
+  - name: py3-supported-${{vars.pypi-package}}
+    description: meta package providing ${{vars.pypi-package}} for supported python versions.
+    dependencies:
+      runtime:
+        - py3.10-${{vars.pypi-package}}
+
+test:
+  pipeline:
+    - uses: python/import
+      with:
+        imports: |
+          import ${{vars.import}}

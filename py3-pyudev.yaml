@@ -1,0 +1,74 @@
+# Copyright (c) 2024 VEXXHOST, Inc.
+# SPDX-License-Identifier: GPL-3.0-only
+
+package:
+  name: py3-pyudev
+  description: A libudev binding
+  version: 0.24.3
+  epoch: 0
+  copyright:
+    - license: LGPL-3.0-or-later
+  dependencies:
+    provider-priority: 0
+
+vars:
+  pypi-package: pyudev
+  import: pyudev
+
+data:
+  - name: py-versions
+    items:
+      3.10: '310'
+
+environment:
+  contents:
+    packages:
+      - py3-supported-build-base
+      - py3-supported-setuptools
+      - systemd-dev
+
+pipeline:
+  - uses: git-checkout
+    with:
+      repository: https://github.com/pyudev/pyudev
+      tag: v${{package.version}}
+      expected-commit: b20096b34610f3ea3a404509db2dad33e1cc5b31
+  - uses: patch
+    with:
+      patches: 0000-find-library-failure-fix.patch
+
+subpackages:
+  - range: py-versions
+    name: py${{range.key}}-${{vars.pypi-package}}
+    description: python${{range.key}} version of ${{vars.pypi-package}}
+    dependencies:
+      provider-priority: ${{range.value}}
+      provides:
+        - py3-${{vars.pypi-package}}
+      runtime:
+        - libudev
+    pipeline:
+      - uses: py/build-wheel
+        with:
+          python: python${{range.key}}
+      - uses: strip
+    test:
+      pipeline:
+        - uses: python/import
+          with:
+            python: python${{range.key}}
+            imports: |
+              import ${{vars.import}}
+
+  - name: py3-supported-${{vars.pypi-package}}
+    description: meta package providing ${{vars.pypi-package}} for supported python versions.
+    dependencies:
+      runtime:
+        - py3.10-${{vars.pypi-package}}
+
+test:
+  pipeline:
+    - uses: python/import
+      with:
+        imports: |
+          import ${{vars.import}}

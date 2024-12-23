@@ -1,0 +1,71 @@
+# Copyright (c) 2024 VEXXHOST, Inc.
+# SPDX-License-Identifier: GPL-3.0-only
+
+package:
+  name: py3-jsonschema-specifications
+  description: The JSON Schema meta-schemas and vocabularies, exposed as a Registry
+  version: 2023.12.1
+  epoch: 0
+  copyright:
+    - license: MIT
+  dependencies:
+    provider-priority: 0
+
+vars:
+  pypi-package: jsonschema-specifications
+  import: jsonschema_specifications
+
+data:
+  - name: py-versions
+    items:
+      3.10: '310'
+
+environment:
+  contents:
+    packages:
+      - py3-supported-build-base
+      - py3-supported-hatch-vcs
+      - py3-supported-hatchling
+
+pipeline:
+  - uses: git-checkout
+    with:
+      repository: https://github.com/python-jsonschema/jsonschema-specifications
+      tag: v${{package.version}}
+      expected-commit: 79fad2ca88ab8d96486abda54000c1c7a18d5baf
+
+subpackages:
+  - range: py-versions
+    name: py${{range.key}}-${{vars.pypi-package}}
+    description: python${{range.key}} version of ${{vars.pypi-package}}
+    dependencies:
+      provider-priority: ${{range.value}}
+      provides:
+        - py3-${{vars.pypi-package}}
+      runtime:
+        - py${{range.key}}-referencing=~0.35.1
+    pipeline:
+      - uses: py/build-wheel
+        with:
+          python: python${{range.key}}
+      - uses: strip
+    test:
+      pipeline:
+        - uses: python/import
+          with:
+            python: python${{range.key}}
+            imports: |
+              import ${{vars.import}}
+
+  - name: py3-supported-${{vars.pypi-package}}
+    description: meta package providing ${{vars.pypi-package}} for supported python versions.
+    dependencies:
+      runtime:
+        - py3.10-${{vars.pypi-package}}
+
+test:
+  pipeline:
+    - uses: python/import
+      with:
+        imports: |
+          import ${{vars.import}}

@@ -1,0 +1,93 @@
+# Copyright (c) 2024 VEXXHOST, Inc.
+# SPDX-License-Identifier: GPL-3.0-only
+
+package:
+  name: py3-oslo-messaging
+  description: Oslo Messaging API
+  version: 14.9.1
+  epoch: 0
+  copyright:
+    - license: Apache-2.0
+  dependencies:
+    provider-priority: 0
+
+vars:
+  pypi-package: oslo.messaging
+  import: oslo_messaging
+
+var-transforms:
+  - from: ${{vars.pypi-package}}
+    match: '\.'
+    replace: "-"
+    to: mangled-package-name
+
+data:
+  - name: py-versions
+    items:
+      3.10: '310'
+
+environment:
+  contents:
+    packages:
+      - py3-supported-build-base
+      - py3-supported-pbr
+
+pipeline:
+  - uses: git-checkout
+    with:
+      repository: https://opendev.org/openstack/oslo.messaging
+      tag: ${{package.version}}
+      expected-commit: 3803f1527416542e27dfc6f012fdc3cb127d1195
+  - uses: py/validate-pbr-version
+
+subpackages:
+  - range: py-versions
+    name: py${{range.key}}-${{vars.mangled-package-name}}
+    description: python${{range.key}} version of ${{vars.pypi-package}}
+    dependencies:
+      provider-priority: ${{range.value}}
+      provides:
+        - py3-${{vars.mangled-package-name}}
+      runtime:
+        - py${{range.key}}-amqp=~5.2.0
+        - py${{range.key}}-cachetools=~5.5.0
+        - py${{range.key}}-debtcollector=~3.0.0
+        - py${{range.key}}-futurist=~3.0.0
+        - py${{range.key}}-kombu=~5.4.0
+        - py${{range.key}}-oslo-config=~9.6.0
+        - py${{range.key}}-oslo-context=~5.6.0
+        - py${{range.key}}-oslo-log=~6.1.2
+        - py${{range.key}}-oslo-metrics=~0.9.0
+        - py${{range.key}}-oslo-middleware=~6.2.0
+        - py${{range.key}}-oslo-serialization=~5.5.0
+        - py${{range.key}}-oslo-service=~3.5.0
+        - py${{range.key}}-oslo-utils=~7.3.0
+        - py${{range.key}}-pbr=~6.1.0
+        - py${{range.key}}-pyyaml=~6.0.2
+        - py${{range.key}}-stevedore=~5.3.0
+        - py${{range.key}}-webob=~1.8.8
+    pipeline:
+      - uses: py/build-wheel
+        with:
+          python: python${{range.key}}
+      - uses: strip
+    test:
+      pipeline:
+        - uses: python/import
+          with:
+            python: python${{range.key}}
+            imports: |
+              import ${{vars.import}}
+
+  - name: py3-supported-${{vars.mangled-package-name}}
+    description: meta package providing ${{vars.pypi-package}} for supported python versions.
+    dependencies:
+      runtime:
+        - py3.10-${{vars.mangled-package-name}}
+
+test:
+  pipeline:
+    - uses: python/import
+      with:
+        imports: |
+          import ${{vars.import}}

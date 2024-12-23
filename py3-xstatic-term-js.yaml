@@ -1,0 +1,72 @@
+# Copyright (c) 2024 VEXXHOST, Inc.
+# SPDX-License-Identifier: GPL-3.0-only
+
+package:
+  name: py3-xstatic-term-js
+  description: term.js 0.0.7 (XStatic packaging standard)
+  version: 0.0.7.0
+  epoch: 0
+  copyright:
+    - license: MIT
+  dependencies:
+    provider-priority: 0
+
+vars:
+  pypi-package: xstatic-term.js
+  import: xstatic.pkg.termjs
+
+var-transforms:
+  - from: ${{vars.pypi-package}}
+    match: '\.'
+    replace: "-"
+    to: mangled-package-name
+
+data:
+  - name: py-versions
+    items:
+      3.10: '310'
+
+environment:
+  contents:
+    packages:
+      - py3-supported-build-base
+
+pipeline:
+  - uses: fetch
+    with:
+      uri: https://files.pythonhosted.org/packages/63/7a/7bfec29f5f28fdda7170ebbbb2204aeb1d33d6050f3476a807590de06434/XStatic-term.js-0.0.7.0.tar.gz
+      expected-sha256: b5f3ab69cb638391f04254913a11b2aab08e2d51c5b81bb6a564c5a6d442bd31
+
+subpackages:
+  - range: py-versions
+    name: py${{range.key}}-${{vars.mangled-package-name}}
+    description: python${{range.key}} version of ${{vars.pypi-package}}
+    dependencies:
+      provider-priority: ${{range.value}}
+      provides:
+        - py3-${{vars.mangled-package-name}}
+    pipeline:
+      - uses: py/build-wheel
+        with:
+          python: python${{range.key}}
+      - uses: strip
+    test:
+      pipeline:
+        - uses: python/import
+          with:
+            python: python${{range.key}}
+            imports: |
+              import ${{vars.import}}
+
+  - name: py3-supported-${{vars.mangled-package-name}}
+    description: meta package providing ${{vars.pypi-package}} for supported python versions.
+    dependencies:
+      runtime:
+        - py3.10-${{vars.mangled-package-name}}
+
+test:
+  pipeline:
+    - uses: python/import
+      with:
+        imports: |
+          import ${{vars.import}}

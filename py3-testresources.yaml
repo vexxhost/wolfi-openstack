@@ -1,0 +1,73 @@
+# Copyright (c) 2024 VEXXHOST, Inc.
+# SPDX-License-Identifier: GPL-3.0-only
+
+package:
+  name: py3-testresources
+  description: Testresources, a pyunit extension for managing expensive test resources
+  version: 2.0.1
+  epoch: 0
+  copyright:
+    - license: BSD-2-Clause
+    - license: Apache-2.0
+  dependencies:
+    provider-priority: 0
+
+vars:
+  pypi-package: testresources
+  import: testresources
+
+data:
+  - name: py-versions
+    items:
+      3.10: '310'
+
+environment:
+  contents:
+    packages:
+      - py3-supported-build-base
+      - py3-supported-pbr
+
+pipeline:
+  - uses: git-checkout
+    with:
+      repository: https://github.com/testing-cabal/testresources
+      tag: ${{package.version}}
+      expected-commit: 34c017d2b59e149480917ae3a6d07f0f8265035c
+      cherry-picks: |
+        master/8a4b780fa5d14ab40fecf5349dee574ac1d95a3d: Use MutableSet collections.abc if available
+
+subpackages:
+  - range: py-versions
+    name: py${{range.key}}-${{vars.pypi-package}}
+    description: python${{range.key}} version of ${{vars.pypi-package}}
+    dependencies:
+      provider-priority: ${{range.value}}
+      provides:
+        - py3-${{vars.pypi-package}}
+      runtime:
+        - py${{range.key}}-pbr=~6.1.0
+    pipeline:
+      - uses: py/build-wheel
+        with:
+          python: python${{range.key}}
+      - uses: strip
+    test:
+      pipeline:
+        - uses: python/import
+          with:
+            python: python${{range.key}}
+            imports: |
+              import ${{vars.import}}
+
+  - name: py3-supported-${{vars.pypi-package}}
+    description: meta package providing ${{vars.pypi-package}} for supported python versions.
+    dependencies:
+      runtime:
+        - py3.10-${{vars.pypi-package}}
+
+test:
+  pipeline:
+    - uses: python/import
+      with:
+        imports: |
+          import ${{vars.import}}

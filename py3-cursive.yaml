@@ -1,0 +1,77 @@
+# Copyright (c) 2024 VEXXHOST, Inc.
+# SPDX-License-Identifier: GPL-3.0-only
+
+package:
+  name: py3-cursive
+  description: Cursive implements OpenStack-specific validation of digital signatures.
+  version: 0.2.3
+  epoch: 0
+  copyright:
+    - license: Apache-2.0
+  dependencies:
+    provider-priority: 0
+
+vars:
+  pypi-package: cursive
+  import: cursive
+
+data:
+  - name: py-versions
+    items:
+      3.10: '310'
+
+environment:
+  contents:
+    packages:
+      - py3-supported-build-base
+      - py3-supported-pbr
+
+pipeline:
+  - uses: git-checkout
+    with:
+      repository: https://opendev.org/x/cursive
+      tag: ${{package.version}}
+      expected-commit: 7602c362976c3d87fea6af979108bb056e850a9a
+  - uses: py/validate-pbr-version
+
+subpackages:
+  - range: py-versions
+    name: py${{range.key}}-${{vars.pypi-package}}
+    description: python${{range.key}} version of ${{vars.pypi-package}}
+    dependencies:
+      provider-priority: ${{range.value}}
+      provides:
+        - py3-${{vars.pypi-package}}
+      runtime:
+        - py${{range.key}}-castellan=~5.1.1
+        - py${{range.key}}-cryptography=~42.0.8
+        - py${{range.key}}-oslo-i18n=~6.4.0
+        - py${{range.key}}-oslo-log=~6.1.2
+        - py${{range.key}}-oslo-serialization=~5.5.0
+        - py${{range.key}}-oslo-utils=~7.3.0
+        - py${{range.key}}-pbr=~6.1.0
+    pipeline:
+      - uses: py/build-wheel
+        with:
+          python: python${{range.key}}
+      - uses: strip
+    test:
+      pipeline:
+        - uses: python/import
+          with:
+            python: python${{range.key}}
+            imports: |
+              import ${{vars.import}}
+
+  - name: py3-supported-${{vars.pypi-package}}
+    description: meta package providing ${{vars.pypi-package}} for supported python versions.
+    dependencies:
+      runtime:
+        - py3.10-${{vars.pypi-package}}
+
+test:
+  pipeline:
+    - uses: python/import
+      with:
+        imports: |
+          import ${{vars.import}}

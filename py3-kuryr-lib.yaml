@@ -1,0 +1,81 @@
+# Copyright (c) 2024 VEXXHOST, Inc.
+# SPDX-License-Identifier: GPL-3.0-only
+
+package:
+  name: py3-kuryr-lib
+  description: Kuryr shared config and utilities
+  version: 3.1.0
+  epoch: 0
+  copyright:
+    - license: Apache-2.0
+  dependencies:
+    provider-priority: 0
+
+vars:
+  pypi-package: kuryr-lib
+  import: kuryr.lib
+
+data:
+  - name: py-versions
+    items:
+      3.10: '310'
+
+environment:
+  contents:
+    packages:
+      - py3-supported-build-base
+      - py3-supported-pbr
+
+pipeline:
+  - uses: git-checkout
+    with:
+      repository: https://opendev.org/openstack/kuryr
+      tag: ${{package.version}}
+      expected-commit: 1be13e32bda90bd1baea84c6e300d48d8781a497
+  - uses: py/validate-pbr-version
+
+subpackages:
+  - range: py-versions
+    name: py${{range.key}}-${{vars.pypi-package}}
+    description: python${{range.key}} version of ${{vars.pypi-package}}
+    dependencies:
+      provider-priority: ${{range.value}}
+      provides:
+        - py3-${{vars.pypi-package}}
+      runtime:
+        - py${{range.key}}-babel=~2.16.0
+        - py${{range.key}}-keystoneauth1=~5.8.0
+        - py${{range.key}}-neutron-lib=~3.15.0
+        - py${{range.key}}-oslo-concurrency=~6.1.0
+        - py${{range.key}}-oslo-i18n=~6.4.0
+        - py${{range.key}}-oslo-log=~6.1.2
+        - py${{range.key}}-oslo-upgradecheck=~2.4.0
+        - py${{range.key}}-oslo-utils=~7.3.0
+        - py${{range.key}}-pbr=~6.1.0
+        - py${{range.key}}-pyroute2=~0.7.12
+        - py${{range.key}}-python-neutronclient=~11.3.1
+    pipeline:
+      - uses: py/build-wheel
+        with:
+          python: python${{range.key}}
+      - uses: strip
+    test:
+      pipeline:
+        - uses: python/import
+          with:
+            python: python${{range.key}}
+            imports: |
+              import ${{vars.import}}
+
+  - name: py3-supported-${{vars.pypi-package}}
+    description: meta package providing ${{vars.pypi-package}} for supported python versions.
+    dependencies:
+      runtime:
+        - py3.10-${{vars.pypi-package}}
+
+test:
+  pipeline:
+    - uses: python/import
+      with:
+        imports: |
+          import ${{vars.import}}

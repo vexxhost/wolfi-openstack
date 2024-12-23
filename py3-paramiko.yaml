@@ -1,0 +1,71 @@
+# Copyright (c) 2024 VEXXHOST, Inc.
+# SPDX-License-Identifier: GPL-3.0-only
+
+package:
+  name: py3-paramiko
+  description: SSH2 protocol library
+  version: 3.4.1
+  epoch: 0
+  copyright:
+    - license: LGPL-3.0-or-later
+  dependencies:
+    provider-priority: 0
+
+vars:
+  pypi-package: paramiko
+  import: paramiko
+
+data:
+  - name: py-versions
+    items:
+      3.10: '310'
+
+environment:
+  contents:
+    packages:
+      - py3-supported-build-base
+
+pipeline:
+  - uses: git-checkout
+    with:
+      repository: https://github.com/paramiko/paramiko
+      tag: ${{package.version}}
+      expected-commit: 3b7934585ce8514c7d945dffa4c4dc40abddf9ba
+
+subpackages:
+  - range: py-versions
+    name: py${{range.key}}-${{vars.pypi-package}}
+    description: python${{range.key}} version of ${{vars.pypi-package}}
+    dependencies:
+      provider-priority: ${{range.value}}
+      provides:
+        - py3-${{vars.pypi-package}}
+      runtime:
+        - py${{range.key}}-bcrypt=~4.0.1
+        - py${{range.key}}-cryptography=~42.0.8
+        - py${{range.key}}-pynacl=~1.5.0
+    pipeline:
+      - uses: py/build-wheel
+        with:
+          python: python${{range.key}}
+      - uses: strip
+    test:
+      pipeline:
+        - uses: python/import
+          with:
+            python: python${{range.key}}
+            imports: |
+              import ${{vars.import}}
+
+  - name: py3-supported-${{vars.pypi-package}}
+    description: meta package providing ${{vars.pypi-package}} for supported python versions.
+    dependencies:
+      runtime:
+        - py3.10-${{vars.pypi-package}}
+
+test:
+  pipeline:
+    - uses: python/import
+      with:
+        imports: |
+          import ${{vars.import}}

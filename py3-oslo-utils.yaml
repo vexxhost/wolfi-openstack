@@ -1,0 +1,85 @@
+# Copyright (c) 2024 VEXXHOST, Inc.
+# SPDX-License-Identifier: GPL-3.0-only
+
+package:
+  name: py3-oslo-utils
+  description: Oslo Utility library
+  version: 7.3.0
+  epoch: 0
+  copyright:
+    - license: Apache-2.0
+  dependencies:
+    provider-priority: 0
+
+vars:
+  pypi-package: oslo.utils
+  import: oslo_utils
+
+var-transforms:
+  - from: ${{vars.pypi-package}}
+    match: '\.'
+    replace: "-"
+    to: mangled-package-name
+
+data:
+  - name: py-versions
+    items:
+      3.10: '310'
+
+environment:
+  contents:
+    packages:
+      - py3-supported-build-base
+      - py3-supported-pbr
+
+pipeline:
+  - uses: git-checkout
+    with:
+      repository: https://opendev.org/openstack/oslo.utils
+      tag: ${{package.version}}
+      expected-commit: c5d589f2c266dfcd0900e09ea76394f3be457d16
+  - uses: py/validate-pbr-version
+
+subpackages:
+  - range: py-versions
+    name: py${{range.key}}-${{vars.mangled-package-name}}
+    description: python${{range.key}} version of ${{vars.pypi-package}}
+    dependencies:
+      provider-priority: ${{range.value}}
+      provides:
+        - py3-${{vars.mangled-package-name}}
+      runtime:
+        - py${{range.key}}-debtcollector=~3.0.0
+        - py${{range.key}}-iso8601=~2.1.0
+        - py${{range.key}}-netaddr=~0.10.1
+        - py${{range.key}}-netifaces=~0.11.0
+        - py${{range.key}}-oslo-i18n=~6.4.0
+        - py${{range.key}}-packaging=~24.1
+        - py${{range.key}}-pyparsing=~3.1.2
+        - py${{range.key}}-pyyaml=~6.0.2
+        - py${{range.key}}-tzdata=~2024.1
+    pipeline:
+      - uses: py/build-wheel
+        with:
+          python: python${{range.key}}
+      - uses: strip
+    test:
+      pipeline:
+        - uses: python/import
+          with:
+            python: python${{range.key}}
+            imports: |
+              import ${{vars.import}}
+
+  - name: py3-supported-${{vars.mangled-package-name}}
+    description: meta package providing ${{vars.pypi-package}} for supported python versions.
+    dependencies:
+      runtime:
+        - py3.10-${{vars.mangled-package-name}}
+
+test:
+  pipeline:
+    - uses: python/import
+      with:
+        imports: |
+          import ${{vars.import}}

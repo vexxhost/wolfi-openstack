@@ -1,0 +1,55 @@
+# Copyright (c) 2024 VEXXHOST, Inc.
+# SPDX-License-Identifier: GPL-3.0-only
+
+package:
+  name: py3-django-pyscss
+  description: Makes it easier to use PySCSS in Django.
+  version: 2.0.3
+  epoch: 0
+  copyright:
+    - license: BSD-2-Clause
+  dependencies:
+    provider-priority: 0
+
+vars:
+  pypi-package: django-pyscss
+
+data:
+  - name: py-versions
+    items:
+      3.10: '310'
+
+environment:
+  contents:
+    packages:
+      - py3-supported-build-base
+
+pipeline:
+  - uses: git-checkout
+    with:
+      repository: https://github.com/fusionbox/django-pyscss
+      tag: ${{package.version}}
+      expected-commit: 3f20c27ff772ecf0ec7ae692a8b80beb961c62f3
+
+subpackages:
+  - range: py-versions
+    name: py${{range.key}}-${{vars.pypi-package}}
+    description: python${{range.key}} version of ${{vars.pypi-package}}
+    dependencies:
+      provider-priority: ${{range.value}}
+      provides:
+        - py3-${{vars.pypi-package}}
+      runtime:
+        - py${{range.key}}-django=~4.2.15
+        - py${{range.key}}-pyscss=~1.4.0
+    pipeline:
+      - uses: py/build-wheel
+        with:
+          python: python${{range.key}}
+      - uses: strip
+
+  - name: py3-supported-${{vars.pypi-package}}
+    description: meta package providing ${{vars.pypi-package}} for supported python versions.
+    dependencies:
+      runtime:
+        - py3.10-${{vars.pypi-package}}

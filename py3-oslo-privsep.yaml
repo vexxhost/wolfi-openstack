@@ -1,0 +1,84 @@
+# Copyright (c) 2024 VEXXHOST, Inc.
+# SPDX-License-Identifier: GPL-3.0-only
+
+package:
+  name: py3-oslo-privsep
+  description: OpenStack library for privilege separation
+  version: 3.4.0
+  epoch: 0
+  copyright:
+    - license: Apache-2.0
+  dependencies:
+    provider-priority: 0
+
+vars:
+  pypi-package: oslo.privsep
+  import: oslo_privsep
+
+var-transforms:
+  - from: ${{vars.pypi-package}}
+    match: '\.'
+    replace: "-"
+    to: mangled-package-name
+
+data:
+  - name: py-versions
+    items:
+      3.10: '310'
+
+environment:
+  contents:
+    packages:
+      - py3-supported-build-base
+      - py3-supported-pbr
+
+pipeline:
+  - uses: git-checkout
+    with:
+      repository: https://opendev.org/openstack/oslo.privsep
+      tag: ${{package.version}}
+      expected-commit: e860b1c4576e8145a671c31e19c329176b7dc1b6
+  - uses: py/validate-pbr-version
+
+subpackages:
+  - range: py-versions
+    name: py${{range.key}}-${{vars.mangled-package-name}}
+    description: python${{range.key}} version of ${{vars.pypi-package}}
+    dependencies:
+      provider-priority: ${{range.value}}
+      provides:
+        - py3-${{vars.mangled-package-name}}
+      runtime:
+        - py${{range.key}}-cffi=~1.17.0
+        - py${{range.key}}-eventlet=~0.36.1
+        - py${{range.key}}-greenlet=~3.0.3
+        - py${{range.key}}-msgpack=~1.0.8
+        - py${{range.key}}-oslo-config=~9.6.0
+        - py${{range.key}}-oslo-i18n=~6.4.0
+        - py${{range.key}}-oslo-log=~6.1.2
+        - py${{range.key}}-oslo-utils=~7.3.0
+    pipeline:
+      - uses: py/build-wheel
+        with:
+          python: python${{range.key}}
+      - uses: strip
+    test:
+      pipeline:
+        - uses: python/import
+          with:
+            python: python${{range.key}}
+            imports: |
+              import ${{vars.import}}
+
+  - name: py3-supported-${{vars.mangled-package-name}}
+    description: meta package providing ${{vars.pypi-package}} for supported python versions.
+    dependencies:
+      runtime:
+        - py3.10-${{vars.mangled-package-name}}
+
+test:
+  pipeline:
+    - uses: python/import
+      with:
+        imports: |
+          import ${{vars.import}}

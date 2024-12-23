@@ -1,0 +1,90 @@
+# Copyright (c) 2024 VEXXHOST, Inc.
+# SPDX-License-Identifier: GPL-3.0-only
+
+package:
+  name: py3-oslo-vmware
+  description: Oslo VMware library
+  version: 4.5.0
+  epoch: 0
+  copyright:
+    - license: Apache-2.0
+  dependencies:
+    provider-priority: 0
+
+vars:
+  pypi-package: oslo.vmware
+  import: oslo_vmware
+
+var-transforms:
+  - from: ${{vars.pypi-package}}
+    match: '\.'
+    replace: "-"
+    to: mangled-package-name
+
+data:
+  - name: py-versions
+    items:
+      3.10: '310'
+
+environment:
+  contents:
+    packages:
+      - py3-supported-build-base
+      - py3-supported-pbr
+
+pipeline:
+  - uses: git-checkout
+    with:
+      repository: https://opendev.org/openstack/oslo.vmware
+      tag: ${{package.version}}
+      expected-commit: f42f4c9d13ccf79d66727e8c81fa41fe87e0ab2c
+  - uses: py/validate-pbr-version
+
+subpackages:
+  - range: py-versions
+    name: py${{range.key}}-${{vars.mangled-package-name}}
+    description: python${{range.key}} version of ${{vars.pypi-package}}
+    dependencies:
+      provider-priority: ${{range.value}}
+      provides:
+        - py3-${{vars.mangled-package-name}}
+      runtime:
+        - py${{range.key}}-defusedxml=~0.7.1
+        - py${{range.key}}-eventlet=~0.36.1
+        - py${{range.key}}-lxml=~5.3.0
+        - py${{range.key}}-netaddr=~0.10.1
+        - py${{range.key}}-oslo-concurrency=~6.1.0
+        - py${{range.key}}-oslo-context=~5.6.0
+        - py${{range.key}}-oslo-i18n=~6.4.0
+        - py${{range.key}}-oslo-utils=~7.3.0
+        - py${{range.key}}-pbr=~6.1.0
+        - py${{range.key}}-pyyaml=~6.0.2
+        - py${{range.key}}-requests=~2.32.3
+        - py${{range.key}}-stevedore=~5.3.0
+        - py${{range.key}}-suds-community=~1.1.2
+        - py${{range.key}}-urllib3=~1.26.19
+    pipeline:
+      - uses: py/build-wheel
+        with:
+          python: python${{range.key}}
+      - uses: strip
+    test:
+      pipeline:
+        - uses: python/import
+          with:
+            python: python${{range.key}}
+            imports: |
+              import ${{vars.import}}
+
+  - name: py3-supported-${{vars.mangled-package-name}}
+    description: meta package providing ${{vars.pypi-package}} for supported python versions.
+    dependencies:
+      runtime:
+        - py3.10-${{vars.mangled-package-name}}
+
+test:
+  pipeline:
+    - uses: python/import
+      with:
+        imports: |
+          import ${{vars.import}}

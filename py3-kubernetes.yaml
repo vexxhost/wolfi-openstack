@@ -1,0 +1,78 @@
+# Copyright (c) 2024 VEXXHOST, Inc.
+# SPDX-License-Identifier: GPL-3.0-only
+
+package:
+  name: py3-kubernetes
+  description: Kubernetes python client
+  version: 30.1.0
+  epoch: 0
+  copyright:
+    - license: Apache-2.0
+  dependencies:
+    provider-priority: 0
+
+vars:
+  pypi-package: kubernetes
+  import: kubernetes
+
+data:
+  - name: py-versions
+    items:
+      3.10: '310'
+
+environment:
+  contents:
+    packages:
+      - py3-supported-setuptools
+
+pipeline:
+  - uses: git-checkout
+    with:
+      repository: https://github.com/kubernetes-client/python
+      tag: v${{package.version}}
+      expected-commit: 6b6201dc5f20b9f52b41e985af9b67b638ac6ab1
+
+subpackages:
+  - range: py-versions
+    name: py${{range.key}}-${{vars.pypi-package}}
+    description: python${{range.key}} version of ${{vars.pypi-package}}
+    dependencies:
+      provider-priority: ${{range.value}}
+      provides:
+        - py3-${{vars.pypi-package}}
+      runtime:
+        - py${{range.key}}-certifi=~2024.12.14
+        - py${{range.key}}-google-auth=~2.34.0
+        - py${{range.key}}-oauthlib=~3.2.2
+        - py${{range.key}}-python-dateutil=~2.9.0.post0
+        - py${{range.key}}-pyyaml=~6.0.2
+        - py${{range.key}}-requests-oauthlib=~1.3.1
+        - py${{range.key}}-requests=~2.32.3
+        - py${{range.key}}-six=~1.16.0
+        - py${{range.key}}-urllib3=~1.26.19
+        - py${{range.key}}-websocket-client=~1.8.0
+    pipeline:
+      - uses: py/build-wheel
+        with:
+          python: python${{range.key}}
+      - uses: strip
+    test:
+      pipeline:
+        - uses: python/import
+          with:
+            python: python${{range.key}}
+            imports: |
+              import ${{vars.import}}
+
+  - name: py3-supported-${{vars.pypi-package}}
+    description: meta package providing ${{vars.pypi-package}} for supported python versions.
+    dependencies:
+      runtime:
+        - py3.10-${{vars.pypi-package}}
+
+test:
+  pipeline:
+    - uses: python/import
+      with:
+        imports: |
+          import ${{vars.import}}

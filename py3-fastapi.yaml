@@ -1,0 +1,57 @@
+# Copyright (c) 2024 VEXXHOST, Inc.
+# SPDX-License-Identifier: GPL-3.0-only
+
+package:
+  name: py3-fastapi
+  description: FastAPI framework, high performance, easy to learn, fast to code, ready for production
+  version: 0.58.1
+  epoch: 0
+  copyright:
+    - license: MIT
+  dependencies:
+    provider-priority: 0
+
+vars:
+  pypi-package: fastapi
+
+data:
+  - name: py-versions
+    items:
+      3.10: '310'
+
+environment:
+  contents:
+    packages:
+      - py3-supported-build-base
+      - py3-supported-flit-core
+
+pipeline:
+  - uses: git-checkout
+    with:
+      repository: https://github.com/tiangolo/fastapi
+      tag: ${{package.version}}
+      expected-commit: 3ff504f03fb5ba852def5a0a41653c6bed7efb1b
+  - runs: sed -i s/flit.buildapi/flit_core.buildapi/g pyproject.toml
+
+subpackages:
+  - range: py-versions
+    name: py${{range.key}}-${{vars.pypi-package}}
+    description: python${{range.key}} version of ${{vars.pypi-package}}
+    dependencies:
+      provider-priority: ${{range.value}}
+      provides:
+        - py3-${{vars.pypi-package}}
+      runtime:
+        - py${{range.key}}-pydantic=~1.10.0
+        - py${{range.key}}-starlette=~0.13.4
+    pipeline:
+      - uses: py/build-wheel
+        with:
+          python: python${{range.key}}
+      - uses: strip
+
+  - name: py3-supported-${{vars.pypi-package}}
+    description: meta package providing ${{vars.pypi-package}} for supported python versions.
+    dependencies:
+      runtime:
+        - py3.10-${{vars.pypi-package}}

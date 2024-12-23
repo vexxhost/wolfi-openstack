@@ -1,0 +1,26 @@
+# Copyright (c) 2024 VEXXHOST, Inc.
+# SPDX-License-Identifier: Apache-2.0
+
+name: Run unit tests with "pytest"
+
+needs:
+  packages:
+    - python-3.10
+    - py3.10-pytest
+
+inputs:
+  path:
+    description: The path to the tests to run.
+
+pipeline:
+  - runs: |
+      pip install .
+      python3 -m pytest ${{inputs.path}}
+    environment:
+      PIP_FORCE_REINSTALL: "true"
+      PIP_NO_BUILD_ISOLATION: "off"
+      PIP_NO_DEPENDENCIES: "true"
+      PIP_NO_INDEX: "true"
+      PIP_VERBOSE: "true"
+      # This is needed to work around the error "ValueError: ZIP does not support timestamps before 1980"
+      SOURCE_DATE_EPOCH: 315532800

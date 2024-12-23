@@ -1,0 +1,121 @@
+# Copyright (c) 2024 VEXXHOST, Inc.
+# SPDX-License-Identifier: GPL-3.0-only
+
+package:
+  name: py3-trove
+  description: OpenStack DBaaS
+  version: 22.0.0
+  epoch: 0
+  copyright:
+    - license: Apache-2.0
+  dependencies:
+    provider-priority: 0
+
+vars:
+  pypi-package: trove
+  import: trove
+
+data:
+  - name: py-versions
+    items:
+      3.10: '310'
+
+environment:
+  contents:
+    packages:
+      - py3-supported-build-base
+      - py3-supported-pbr
+
+pipeline:
+  - uses: git-checkout
+    with:
+      repository: https://opendev.org/openstack/trove
+      tag: ${{package.version}}
+      expected-commit: beaa59f7a7f5375535b207375780c8692b847b93
+  - uses: py/validate-pbr-version
+
+subpackages:
+  - range: py-versions
+    name: py${{range.key}}-${{vars.pypi-package}}
+    description: python${{range.key}} version of ${{vars.pypi-package}}
+    dependencies:
+      provider-priority: ${{range.value}}
+      provides:
+        - py3-${{vars.pypi-package}}
+      runtime:
+        - py${{range.key}}-alembic=~1.13.2
+        - py${{range.key}}-cryptography=~42.0.8
+        - py${{range.key}}-diskimage-builder=~3.33.0
+        - py${{range.key}}-docker=~7.1.0
+        - py${{range.key}}-eventlet=~0.36.1
+        - py${{range.key}}-flask=~3.0.3
+        - py${{range.key}}-gunicorn=~23.0.0
+        - py${{range.key}}-httplib2=~0.22.0
+        - py${{range.key}}-iso8601=~2.1.0
+        - py${{range.key}}-jinja2=~3.1.4
+        - py${{range.key}}-jsonschema=~4.19.2
+        - py${{range.key}}-keystonemiddleware=~10.7.1
+        - py${{range.key}}-lxml=~5.3.0
+        - py${{range.key}}-netaddr=~0.10.1
+        - py${{range.key}}-oslo-cache=~3.8.0
+        - py${{range.key}}-oslo-concurrency=~6.1.0
+        - py${{range.key}}-oslo-config=~9.6.0
+        - py${{range.key}}-oslo-context=~5.6.0
+        - py${{range.key}}-oslo-db=~16.0.0
+        - py${{range.key}}-oslo-i18n=~6.4.0
+        - py${{range.key}}-oslo-log=~6.1.2
+        - py${{range.key}}-oslo-messaging=~14.9.1
+        - py${{range.key}}-oslo-middleware=~6.2.0
+        - py${{range.key}}-oslo-policy=~4.4.0
+        - py${{range.key}}-oslo-serialization=~5.5.0
+        - py${{range.key}}-oslo-service=~3.5.0
+        - py${{range.key}}-oslo-upgradecheck=~2.4.0
+        - py${{range.key}}-oslo-utils=~7.3.0
+        - py${{range.key}}-osprofiler=~4.2.0
+        - py${{range.key}}-paste=~3.10.1
+        - py${{range.key}}-pastedeploy=~3.1.0
+        - py${{range.key}}-pbr=~6.1.0
+        - py${{range.key}}-pexpect=~4.9.0
+        - py${{range.key}}-psycopg2=~2.9.9
+        - py${{range.key}}-pymysql=~1.1.1
+        - py${{range.key}}-pyroute2=~0.7.12
+        - py${{range.key}}-python-cinderclient=~9.6.0
+        - py${{range.key}}-python-designateclient=~6.1.0
+        - py${{range.key}}-python-glanceclient=~4.7.0
+        - py${{range.key}}-python-heatclient=~4.0.0
+        - py${{range.key}}-python-keystoneclient=~5.5.0
+        - py${{range.key}}-python-neutronclient=~11.3.1
+        - py${{range.key}}-python-novaclient=~18.7.0
+        - py${{range.key}}-python-swiftclient=~4.6.0
+        - py${{range.key}}-python-troveclient=~8.6.0
+        - py${{range.key}}-routes=~2.5.1
+        - py${{range.key}}-semantic-version=~2.10.0
+        - py${{range.key}}-sqlalchemy=~2.0.32
+        - py${{range.key}}-stevedore=~5.3.0
+        - py${{range.key}}-webob=~1.8.8
+        - py${{range.key}}-xmltodict=~0.13.0
+    pipeline:
+      - uses: py/build-wheel
+        with:
+          python: python${{range.key}}
+      - uses: strip
+    test:
+      pipeline:
+        - uses: python/import
+          with:
+            python: python${{range.key}}
+            imports: |
+              import ${{vars.import}}
+
+  - name: py3-supported-${{vars.pypi-package}}
+    description: meta package providing ${{vars.pypi-package}} for supported python versions.
+    dependencies:
+      runtime:
+        - py3.10-${{vars.pypi-package}}
+
+test:
+  pipeline:
+    - uses: python/import
+      with:
+        imports: |
+          import ${{vars.import}}

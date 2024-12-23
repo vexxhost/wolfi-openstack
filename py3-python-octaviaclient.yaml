@@ -1,0 +1,79 @@
+# Copyright (c) 2024 VEXXHOST, Inc.
+# SPDX-License-Identifier: GPL-3.0-only
+
+package:
+  name: py3-python-octaviaclient
+  description: Octavia client for OpenStack Load Balancing
+  version: 3.8.0
+  epoch: 0
+  copyright:
+    - license: Apache-2.0
+  dependencies:
+    provider-priority: 0
+
+vars:
+  pypi-package: python-octaviaclient
+  import: octaviaclient
+
+data:
+  - name: py-versions
+    items:
+      3.10: '310'
+
+environment:
+  contents:
+    packages:
+      - py3-supported-build-base
+      - py3-supported-pbr
+
+pipeline:
+  - uses: git-checkout
+    with:
+      repository: https://opendev.org/openstack/python-octaviaclient
+      tag: ${{package.version}}
+      expected-commit: d2719ff84a1aceb2c63854ca4216381e5555ad2b
+  - uses: py/validate-pbr-version
+
+subpackages:
+  - range: py-versions
+    name: py${{range.key}}-${{vars.pypi-package}}
+    description: python${{range.key}} version of ${{vars.pypi-package}}
+    dependencies:
+      provider-priority: ${{range.value}}
+      provides:
+        - py3-${{vars.pypi-package}}
+      runtime:
+        - py${{range.key}}-cliff=~4.7.0
+        - py${{range.key}}-keystoneauth1=~5.8.0
+        - py${{range.key}}-osc-lib=~3.1.0
+        - py${{range.key}}-oslo-serialization=~5.5.0
+        - py${{range.key}}-oslo-utils=~7.3.0
+        - py${{range.key}}-pbr=~6.1.0
+        - py${{range.key}}-python-neutronclient=~11.3.1
+        - py${{range.key}}-python-openstackclient=~7.1.3
+        - py${{range.key}}-requests=~2.32.3
+    pipeline:
+      - uses: py/build-wheel
+        with:
+          python: python${{range.key}}
+      - uses: strip
+    test:
+      pipeline:
+        - uses: python/import
+          with:
+            python: python${{range.key}}
+            imports: |
+              import ${{vars.import}}
+
+  - name: py3-supported-${{vars.pypi-package}}
+    description: meta package providing ${{vars.pypi-package}} for supported python versions.
+    dependencies:
+      runtime:
+        - py3.10-${{vars.pypi-package}}
+
+test:
+  pipeline:
+    - uses: python/import
+      with:
+        imports: |
+          import ${{vars.import}}

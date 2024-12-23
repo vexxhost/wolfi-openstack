@@ -1,0 +1,50 @@
+# Copyright (c) 2024 VEXXHOST, Inc.
+# SPDX-License-Identifier: Apache-2.0
+
+name: Build a Python wheel
+
+needs:
+  packages:
+    - busybox
+    - py3-supported-build
+    - py3-supported-installer
+
+inputs:
+  python:
+    description: The Python binary to use.
+    default: python3.10
+  path:
+    description: The path to the package to build.
+    default: .
+  cppflags:
+    description: The C preprocessor flags to use.
+    default: ""
+  ldflags:
+    description: The linker flags to use.
+    default: ""
+
+pipeline:
+  - runs: |
+      # NOTE(mnaser): Environment variables are not templated.
+      export CPPFLAGS="${{inputs.cppflags}}"
+      export LDFLAGS="${{inputs.ldflags}}"
+
+      ${{inputs.python}} -m build \
+        --wheel \
+        --no-isolation \
+        --skip-dependency-check \
+        --outdir ./.wheels/${{inputs.python}} \
+        ${{inputs.path}}
+    environment:
+      # This is needed to work around the error "ValueError: ZIP does not support timestamps before 1980"
+      SOURCE_DATE_EPOCH: 315532800
+  - runs: |
+      ${{inputs.python}} -m installer \
+        --destdir=${{targets.contextdir}} \
+        --prefix=/usr \
+        --no-compile-bytecode \
+        ./.wheels/${{inputs.python}}/*.whl
+  - runs: |
+      if [ -d ${{targets.contextdir}}/usr/etc ]; then
+        mv ${{targets.contextdir}}/usr/etc ${{targets.contextdir}}/etc
+      fi

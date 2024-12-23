@@ -1,0 +1,112 @@
+# Copyright (c) 2024 VEXXHOST, Inc.
+# SPDX-License-Identifier: GPL-3.0-only
+
+package:
+  name: py3-ironic
+  description: OpenStack Bare Metal Provisioning
+  version: 26.1.1
+  epoch: 0
+  copyright:
+    - license: Apache-2.0
+  dependencies:
+    provider-priority: 0
+
+vars:
+  pypi-package: ironic
+  import: ironic
+
+data:
+  - name: py-versions
+    items:
+      3.10: '310'
+
+environment:
+  contents:
+    packages:
+      - py3-supported-build-base
+      - py3-supported-pbr
+
+pipeline:
+  - uses: git-checkout
+    with:
+      repository: https://opendev.org/openstack/ironic
+      tag: ${{package.version}}
+      expected-commit: d176f36638b2edd43b9cc42da8dcd7d890b3cad8
+  - uses: py/validate-pbr-version
+
+subpackages:
+  - range: py-versions
+    name: py${{range.key}}-${{vars.pypi-package}}
+    description: python${{range.key}} version of ${{vars.pypi-package}}
+    dependencies:
+      provider-priority: ${{range.value}}
+      provides:
+        - py3-${{vars.pypi-package}}
+      runtime:
+        - py${{range.key}}-alembic=~1.13.2
+        - py${{range.key}}-automaton=~3.2.0
+        - py${{range.key}}-construct=~2.10.70
+        - py${{range.key}}-eventlet=~0.36.1
+        - py${{range.key}}-futurist=~3.0.0
+        - py${{range.key}}-ironic-lib=~6.2.0
+        - py${{range.key}}-jinja2=~3.1.4
+        - py${{range.key}}-jsonpatch=~1.33
+        - py${{range.key}}-jsonschema=~4.19.2
+        - py${{range.key}}-keystoneauth1=~5.8.0
+        - py${{range.key}}-keystonemiddleware=~10.7.1
+        - py${{range.key}}-microversion-parse=~2.0.0
+        - py${{range.key}}-netaddr=~0.10.1
+        - py${{range.key}}-openstacksdk=~4.0.1
+        - py${{range.key}}-os-traits=~3.1.0
+        - py${{range.key}}-oslo-concurrency=~6.1.0
+        - py${{range.key}}-oslo-config=~9.6.0
+        - py${{range.key}}-oslo-context=~5.6.0
+        - py${{range.key}}-oslo-db=~16.0.0
+        - py${{range.key}}-oslo-log=~6.1.2
+        - py${{range.key}}-oslo-messaging=~14.9.1
+        - py${{range.key}}-oslo-middleware=~6.2.0
+        - py${{range.key}}-oslo-policy=~4.4.0
+        - py${{range.key}}-oslo-rootwrap=~7.3.0
+        - py${{range.key}}-oslo-serialization=~5.5.0
+        - py${{range.key}}-oslo-service=~3.5.0
+        - py${{range.key}}-oslo-upgradecheck=~2.4.0
+        - py${{range.key}}-oslo-utils=~7.3.0
+        - py${{range.key}}-oslo-versionedobjects=~3.4.0
+        - py${{range.key}}-osprofiler=~4.2.0
+        - py${{range.key}}-pbr=~6.1.0
+        - py${{range.key}}-pecan=~1.5.1
+        - py${{range.key}}-psutil=~6.0.0
+        - py${{range.key}}-pycdlib=~1.14.0
+        - py${{range.key}}-requests=~2.32.3
+        - py${{range.key}}-rfc3986=~2.0.0
+        - py${{range.key}}-sqlalchemy=~2.0.32
+        - py${{range.key}}-stevedore=~5.3.0
+        - py${{range.key}}-sushy=~5.2.1
+        - py${{range.key}}-tenacity=~8.3.0
+        - py${{range.key}}-tooz=~6.3.0
+        - py${{range.key}}-webob=~1.8.8
+    pipeline:
+      - uses: py/build-wheel
+        with:
+          python: python${{range.key}}
+      - uses: strip
+    test:
+      pipeline:
+        - uses: python/import
+          with:
+            python: python${{range.key}}
+            imports: |
+              import ${{vars.import}}
+
+  - name: py3-supported-${{vars.pypi-package}}
+    description: meta package providing ${{vars.pypi-package}} for supported python versions.
+    dependencies:
+      runtime:
+        - py3.10-${{vars.pypi-package}}
+
+test:
+  pipeline:
+    - uses: python/import
+      with:
+        imports: |
+          import ${{vars.import}}

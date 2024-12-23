@@ -1,0 +1,26 @@
+From b7ec8c5bbf7efa1368783e6e4f4fa7f03cb259f8 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Ad=C4=B1n=C4=B1z?= <siz@e-posta.com>
+Date: Sun, 21 Mar 2021 23:15:06 +0000
+Subject: [PATCH] Library find function fallback
+
+If find_library return None, Try CDLL import.
+---
+ src/pyudev/_ctypeslib/utils.py | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/src/pyudev/_ctypeslib/utils.py b/src/pyudev/_ctypeslib/utils.py
+index 8543416d..54342bda 100644
+--- a/src/pyudev/_ctypeslib/utils.py
++++ b/src/pyudev/_ctypeslib/utils.py
+@@ -51,7 +51,10 @@ def load_ctypes_library(name, signatures, error_checkers):
+     """
+     library_name = find_library(name)
+     if not library_name:
+-        raise ImportError("No library named %s" % name)
++        try:
++            CDLL("libudev.so")
++        except OSError:
++            raise ImportError("No library named %s" % name)
+     lib = CDLL(library_name, use_errno=True)
+     # Add function signatures
+     for funcname, signature in signatures.items():

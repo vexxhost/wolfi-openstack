@@ -1,0 +1,103 @@
+# Copyright (c) 2024 VEXXHOST, Inc.
+# SPDX-License-Identifier: GPL-3.0-only
+
+package:
+  name: py3-ceilometer
+  description: OpenStack Telemetry
+  version: 23.0.0
+  epoch: 0
+  copyright:
+    - license: Apache-2.0
+  dependencies:
+    provider-priority: 0
+
+vars:
+  pypi-package: ceilometer
+  import: ceilometer
+
+data:
+  - name: py-versions
+    items:
+      3.10: '310'
+
+environment:
+  contents:
+    packages:
+      - py3-supported-build-base
+      - py3-supported-pbr
+
+pipeline:
+  - uses: git-checkout
+    with:
+      repository: https://opendev.org/openstack/ceilometer
+      tag: ${{package.version}}
+      expected-commit: 5e3d7f0a81423b98b9f7ab4ce7a364abd87d471b
+  - uses: py/validate-pbr-version
+
+subpackages:
+  - range: py-versions
+    name: py${{range.key}}-${{vars.pypi-package}}
+    description: python${{range.key}} version of ${{vars.pypi-package}}
+    dependencies:
+      provider-priority: ${{range.value}}
+      provides:
+        - py3-${{vars.pypi-package}}
+      runtime:
+        - py${{range.key}}-cachetools=~5.5.0
+        - py${{range.key}}-cotyledon=~1.7.3
+        - py${{range.key}}-futurist=~3.0.0
+        - py${{range.key}}-gnocchiclient=~7.1.0
+        - py${{range.key}}-jsonpath-rw-ext=~1.2.2
+        - py${{range.key}}-keystoneauth1=~5.8.0
+        - py${{range.key}}-lxml=~5.3.0
+        - py${{range.key}}-msgpack=~1.0.8
+        - py${{range.key}}-oslo-cache=~3.8.0
+        - py${{range.key}}-oslo-concurrency=~6.1.0
+        - py${{range.key}}-oslo-config=~9.6.0
+        - py${{range.key}}-oslo-i18n=~6.4.0
+        - py${{range.key}}-oslo-log=~6.1.2
+        - py${{range.key}}-oslo-messaging=~14.9.1
+        - py${{range.key}}-oslo-privsep=~3.4.0
+        - py${{range.key}}-oslo-reports=~3.4.0
+        - py${{range.key}}-oslo-rootwrap=~7.3.0
+        - py${{range.key}}-oslo-upgradecheck=~2.4.0
+        - py${{range.key}}-oslo-utils=~7.3.0
+        - py${{range.key}}-pbr=~6.1.0
+        - py${{range.key}}-python-cinderclient=~9.6.0
+        - py${{range.key}}-python-glanceclient=~4.7.0
+        - py${{range.key}}-python-keystoneclient=~5.5.0
+        - py${{range.key}}-python-neutronclient=~11.3.1
+        - py${{range.key}}-python-novaclient=~18.7.0
+        - py${{range.key}}-python-swiftclient=~4.6.0
+        - py${{range.key}}-python-zaqarclient=~2.8.0
+        - py${{range.key}}-pyyaml=~6.0.2
+        - py${{range.key}}-requests=~2.32.3
+        - py${{range.key}}-stevedore=~5.3.0
+        - py${{range.key}}-tenacity=~8.3.0
+        - py${{range.key}}-tooz=~6.3.0
+        - py${{range.key}}-xmltodict=~0.13.0
+    pipeline:
+      - uses: py/build-wheel
+        with:
+          python: python${{range.key}}
+      - uses: strip
+    test:
+      pipeline:
+        - uses: python/import
+          with:
+            python: python${{range.key}}
+            imports: |
+              import ${{vars.import}}
+
+  - name: py3-supported-${{vars.pypi-package}}
+    description: meta package providing ${{vars.pypi-package}} for supported python versions.
+    dependencies:
+      runtime:
+        - py3.10-${{vars.pypi-package}}
+
+test:
+  pipeline:
+    - uses: python/import
+      with:
+        imports: |
+          import ${{vars.import}}

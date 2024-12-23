@@ -1,0 +1,128 @@
+# Copyright (c) 2024 VEXXHOST, Inc.
+# SPDX-License-Identifier: GPL-3.0-only
+
+package:
+  name: py3-horizon
+  description: OpenStack Dashboard
+  version: 25.1.0
+  epoch: 0
+  copyright:
+    - license: Apache-2.0
+  dependencies:
+    provider-priority: 0
+
+vars:
+  pypi-package: horizon
+  import: horizon
+
+data:
+  - name: py-versions
+    items:
+      3.10: '310'
+
+environment:
+  contents:
+    packages:
+      - py3-supported-build-base
+      - py3-supported-pbr
+
+pipeline:
+  - uses: git-checkout
+    with:
+      repository: https://opendev.org/openstack/horizon
+      tag: ${{package.version}}
+      expected-commit: b65f0a177e26ba34aacc8c8828d4c9938cbaf03e
+  - uses: py/validate-pbr-version
+
+subpackages:
+  - range: py-versions
+    name: py${{range.key}}-${{vars.pypi-package}}
+    description: python${{range.key}} version of ${{vars.pypi-package}}
+    dependencies:
+      provider-priority: ${{range.value}}
+      provides:
+        - py3-${{vars.pypi-package}}
+      runtime:
+        - py${{range.key}}-babel=~2.16.0
+        - py${{range.key}}-django-compressor=~4.5.1
+        - py${{range.key}}-django-debreach=~2.1.0
+        - py${{range.key}}-django-pyscss=~2.0.3
+        - py${{range.key}}-django=~4.2.15
+        - py${{range.key}}-enmerkar=~0.7.1
+        - py${{range.key}}-futurist=~3.0.0
+        - py${{range.key}}-iso8601=~2.1.0
+        - py${{range.key}}-keystoneauth1=~5.8.0
+        - py${{range.key}}-netaddr=~0.10.1
+        - py${{range.key}}-oslo-concurrency=~6.1.0
+        - py${{range.key}}-oslo-config=~9.6.0
+        - py${{range.key}}-oslo-i18n=~6.4.0
+        - py${{range.key}}-oslo-policy=~4.4.0
+        - py${{range.key}}-oslo-serialization=~5.5.0
+        - py${{range.key}}-oslo-upgradecheck=~2.4.0
+        - py${{range.key}}-oslo-utils=~7.3.0
+        - py${{range.key}}-osprofiler=~4.2.0
+        - py${{range.key}}-pbr=~6.1.0
+        - py${{range.key}}-pyscss=~1.4.0
+        - py${{range.key}}-python-cinderclient=~9.6.0
+        - py${{range.key}}-python-glanceclient=~4.7.0
+        - py${{range.key}}-python-keystoneclient=~5.5.0
+        - py${{range.key}}-python-neutronclient=~11.3.1
+        - py${{range.key}}-python-novaclient=~18.7.0
+        - py${{range.key}}-python-swiftclient=~4.6.0
+        - py${{range.key}}-pyyaml=~6.0.2
+        - py${{range.key}}-requests=~2.32.3
+        - py${{range.key}}-semantic-version=~2.10.0
+        - py${{range.key}}-tzdata=~2024.1
+        - py${{range.key}}-xstatic-angular-bootstrap=~2.5.0.0
+        - py${{range.key}}-xstatic-angular-fileupload=~12.2.13.0
+        - py${{range.key}}-xstatic-angular-gettext=~2.4.1.0
+        - py${{range.key}}-xstatic-angular-lrdragndrop=~1.0.2.6
+        - py${{range.key}}-xstatic-angular-schema-form=~0.8.13.0
+        - py${{range.key}}-xstatic-angular=~1.8.2.2
+        - py${{range.key}}-xstatic-bootstrap-datepicker=~1.4.0.0
+        - py${{range.key}}-xstatic-bootstrap-scss=~3.4.1.0
+        - py${{range.key}}-xstatic-bootswatch=~3.3.7.0
+        - py${{range.key}}-xstatic-d3=~3.5.17.0
+        - py${{range.key}}-xstatic-font-awesome=~4.7.0.0
+        - py${{range.key}}-xstatic-hogan=~2.0.0.3
+        - py${{range.key}}-xstatic-jasmine=~2.4.1.2
+        - py${{range.key}}-xstatic-jquery-migrate=~3.3.2.1
+        - py${{range.key}}-xstatic-jquery-quicksearch=~2.0.3.2
+        - py${{range.key}}-xstatic-jquery-tablesorter=~2.14.5.2
+        - py${{range.key}}-xstatic-jquery-ui=~1.13.0.1
+        - py${{range.key}}-xstatic-jquery=~3.5.1.1
+        - py${{range.key}}-xstatic-jsencrypt=~2.3.1.1
+        - py${{range.key}}-xstatic-mdi=~1.6.50.2
+        - py${{range.key}}-xstatic-objectpath=~1.2.1.0
+        - py${{range.key}}-xstatic-rickshaw=~1.5.1.0
+        - py${{range.key}}-xstatic-roboto-fontface=~0.5.0.0
+        - py${{range.key}}-xstatic-smart-table=~1.4.13.2
+        - py${{range.key}}-xstatic-spin=~1.2.5.3
+        - py${{range.key}}-xstatic-term-js=~0.0.7.0
+        - py${{range.key}}-xstatic-tv4=~1.2.7.0
+        - py${{range.key}}-xstatic=~1.0.3
+    pipeline:
+      - uses: py/build-wheel
+        with:
+          python: python${{range.key}}
+      - uses: strip
+    test:
+      pipeline:
+        - uses: python/import
+          with:
+            python: python${{range.key}}
+            imports: |
+              import ${{vars.import}}
+
+  - name: py3-supported-${{vars.pypi-package}}
+    description: meta package providing ${{vars.pypi-package}} for supported python versions.
+    dependencies:
+      runtime:
+        - py3.10-${{vars.pypi-package}}
+
+test:
+  pipeline:
+    - uses: python/import
+      with:
+        imports: |
+          import ${{vars.import}}

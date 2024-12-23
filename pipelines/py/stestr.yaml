@@ -1,0 +1,21 @@
+# Copyright (c) 2024 VEXXHOST, Inc.
+# SPDX-License-Identifier: Apache-2.0
+
+name: Run unit tests with "stestr"
+
+needs:
+  packages:
+    - stestr
+
+pipeline:
+  - runs: |
+      pip install .
+      stestr run
+    environment:
+      PIP_FORCE_REINSTALL: "true"
+      PIP_NO_BUILD_ISOLATION: "off"
+      PIP_NO_DEPENDENCIES: "true"
+      PIP_NO_INDEX: "true"
+      PIP_VERBOSE: "true"
+      # This is needed to work around the error "ValueError: ZIP does not support timestamps before 1980"
+      SOURCE_DATE_EPOCH: 315532800

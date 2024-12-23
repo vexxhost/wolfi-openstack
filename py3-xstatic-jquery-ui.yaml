@@ -1,0 +1,67 @@
+# Copyright (c) 2024 VEXXHOST, Inc.
+# SPDX-License-Identifier: GPL-3.0-only
+
+package:
+  name: py3-xstatic-jquery-ui
+  description: jquery-ui 1.13.0 (XStatic packaging standard)
+  version: 1.13.0.1
+  epoch: 0
+  copyright:
+  dependencies:
+    provider-priority: 0
+
+vars:
+  pypi-package: xstatic-jquery-ui
+  import: xstatic.pkg.jquery_ui
+
+data:
+  - name: py-versions
+    items:
+      3.10: '310'
+
+environment:
+  contents:
+    packages:
+      - py3-supported-build-base
+
+pipeline:
+  - uses: fetch
+    with:
+      uri: https://files.pythonhosted.org/packages/cb/e8/20e39283a6b44299c39f99ab3240662bddccf0ec8d8f8657eddeb0eed93d/XStatic-jquery-ui-1.13.0.1.tar.gz
+      expected-sha256: 3697e5f0ef355b8f4a1c724221592683c2db031935cbb57b46224eef474bd294
+
+subpackages:
+  - range: py-versions
+    name: py${{range.key}}-${{vars.pypi-package}}
+    description: python${{range.key}} version of ${{vars.pypi-package}}
+    dependencies:
+      provider-priority: ${{range.value}}
+      provides:
+        - py3-${{vars.pypi-package}}
+      runtime:
+        - py${{range.key}}-xstatic-jquery=~3.5.1.1
+    pipeline:
+      - uses: py/build-wheel
+        with:
+          python: python${{range.key}}
+      - uses: strip
+    test:
+      pipeline:
+        - uses: python/import
+          with:
+            python: python${{range.key}}
+            imports: |
+              import ${{vars.import}}
+
+  - name: py3-supported-${{vars.pypi-package}}
+    description: meta package providing ${{vars.pypi-package}} for supported python versions.
+    dependencies:
+      runtime:
+        - py3.10-${{vars.pypi-package}}
+
+test:
+  pipeline:
+    - uses: python/import
+      with:
+        imports: |
+          import ${{vars.import}}

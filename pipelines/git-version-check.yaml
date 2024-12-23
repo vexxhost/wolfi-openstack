@@ -1,0 +1,22 @@
+# Copyright (c) 2024 VEXXHOST, Inc.
+# SPDX-License-Identifier: Apache-2.0
+
+name: Git version check
+
+needs:
+  packages:
+    - busybox
+
+inputs:
+  expected-version:
+    description: The expected version of the Git repository.
+    default: ${{package.version}}
+
+pipeline:
+  - runs: |
+      GIT_VERSION=$(git describe --tags --always)
+
+      if [[ "$(git describe --tags --always)" != "v${{inputs.expected-version}}" ]]; then
+        >&2 echo "ERROR: Git version ($GIT_VERSION) does not match expected version (v${{inputs.expected-version}})"
+        exit 1
+      fi

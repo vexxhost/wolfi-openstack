@@ -1,0 +1,68 @@
+# Copyright (c) 2024 VEXXHOST, Inc.
+# SPDX-License-Identifier: GPL-3.0-only
+
+package:
+  name: py3-ptyprocess
+  description: Run a subprocess in a pseudo terminal
+  version: 0.7.0
+  epoch: 0
+  copyright:
+    - license: ISC
+  dependencies:
+    provider-priority: 0
+
+vars:
+  pypi-package: ptyprocess
+  import: ptyprocess
+
+data:
+  - name: py-versions
+    items:
+      3.10: '310'
+
+environment:
+  contents:
+    packages:
+      - py3-supported-build-base
+      - py3-supported-flit-core
+
+pipeline:
+  - uses: git-checkout
+    with:
+      repository: https://github.com/pexpect/ptyprocess
+      tag: ${{package.version}}
+      expected-commit: ee54ae2ee6bdd1e9f040dac79d799ae5b178e8fe
+
+subpackages:
+  - range: py-versions
+    name: py${{range.key}}-${{vars.pypi-package}}
+    description: python${{range.key}} version of ${{vars.pypi-package}}
+    dependencies:
+      provider-priority: ${{range.value}}
+      provides:
+        - py3-${{vars.pypi-package}}
+    pipeline:
+      - uses: py/build-wheel
+        with:
+          python: python${{range.key}}
+      - uses: strip
+    test:
+      pipeline:
+        - uses: python/import
+          with:
+            python: python${{range.key}}
+            imports: |
+              import ${{vars.import}}
+
+  - name: py3-supported-${{vars.pypi-package}}
+    description: meta package providing ${{vars.pypi-package}} for supported python versions.
+    dependencies:
+      runtime:
+        - py3.10-${{vars.pypi-package}}
+
+test:
+  pipeline:
+    - uses: python/import
+      with:
+        imports: |
+          import ${{vars.import}}

@@ -1,0 +1,24 @@
+package:
+  name: kubernetes-entrypoint
+  description: Pod sequencing functionality for Kubernetes
+  version: 0.3.1-43-g73814d3
+  epoch: 0
+  copyright:
+    - license: Apache-2.0
+
+environment:
+  environment:
+    CGO_ENABLED: "0"
+
+pipeline:
+  - uses: git-checkout
+    with:
+      repository: https://opendev.org/airship/kubernetes-entrypoint
+      expected-commit: 73814d31ce514455d202668eb38d73954d21dc4a
+      depth: -1
+  - uses: git-version-check
+  - uses: go/build
+    with:
+      packages: .
+      output: kubernetes-entrypoint
+  - uses: strip

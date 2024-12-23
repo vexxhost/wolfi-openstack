@@ -1,0 +1,99 @@
+# Copyright (c) 2024 VEXXHOST, Inc.
+# SPDX-License-Identifier: GPL-3.0-only
+
+package:
+  name: py3-skyline-apiserver
+  description: OpenStack Skyline APIServer
+  version: 5.0.0
+  epoch: 0
+  copyright:
+    - license: Apache-2.0
+  dependencies:
+    provider-priority: 0
+
+vars:
+  pypi-package: skyline-apiserver
+  import: skyline_apiserver
+
+data:
+  - name: py-versions
+    items:
+      3.10: '310'
+
+environment:
+  contents:
+    packages:
+      - py3-supported-build-base
+      - py3-supported-pbr
+
+pipeline:
+  - uses: git-checkout
+    with:
+      repository: https://opendev.org/openstack/skyline-apiserver
+      tag: ${{package.version}}
+      expected-commit: 5bef216495fa7216d0262f15304673301ae6f0b0
+  - uses: py/validate-pbr-version
+
+subpackages:
+  - range: py-versions
+    name: py${{range.key}}-${{vars.pypi-package}}
+    description: python${{range.key}} version of ${{vars.pypi-package}}
+    dependencies:
+      provider-priority: ${{range.value}}
+      provides:
+        - py3-${{vars.pypi-package}}
+      runtime:
+        - py${{range.key}}-aiomysql=~0.2.0
+        - py${{range.key}}-aiosqlite=~0.17.0
+        - py${{range.key}}-alembic=~1.13.2
+        - py${{range.key}}-click=~8.1.7
+        - py${{range.key}}-databases=~0.9.0
+        - py${{range.key}}-dnspython=~2.6.1
+        - py${{range.key}}-fastapi=~0.58.1
+        - py${{range.key}}-gunicorn=~23.0.0
+        - py${{range.key}}-h11=~0.14.0
+        - py${{range.key}}-httpx=~0.27.0
+        - py${{range.key}}-immutables=~0.20
+        - py${{range.key}}-jinja2=~3.1.4
+        - py${{range.key}}-keystoneauth1=~5.8.0
+        - py${{range.key}}-loguru=~0.5.3
+        - py${{range.key}}-markupsafe=~2.1.5
+        - py${{range.key}}-oslo-policy=~4.4.0
+        - py${{range.key}}-pbr=~6.1.0
+        - py${{range.key}}-pydantic=~1.10.0
+        - py${{range.key}}-pymysql=~1.1.1
+        - py${{range.key}}-python-cinderclient=~9.6.0
+        - py${{range.key}}-python-glanceclient=~4.7.0
+        - py${{range.key}}-python-jose=~3.3.0
+        - py${{range.key}}-python-keystoneclient=~5.5.0
+        - py${{range.key}}-python-multipart=~0.0.20
+        - py${{range.key}}-python-neutronclient=~11.3.1
+        - py${{range.key}}-python-novaclient=~18.7.0
+        - py${{range.key}}-pyyaml=~6.0.2
+        - py${{range.key}}-sqlalchemy=~2.0.32
+        - py${{range.key}}-uvicorn=~0.17.6
+    pipeline:
+      - uses: py/build-wheel
+        with:
+          python: python${{range.key}}
+      - uses: strip
+    test:
+      pipeline:
+        - uses: python/import
+          with:
+            python: python${{range.key}}
+            imports: |
+              import ${{vars.import}}
+
+  - name: py3-supported-${{vars.pypi-package}}
+    description: meta package providing ${{vars.pypi-package}} for supported python versions.
+    dependencies:
+      runtime:
+        - py3.10-${{vars.pypi-package}}
+
+test:
+  pipeline:
+    - uses: python/import
+      with:
+        imports: |
+          import ${{vars.import}}

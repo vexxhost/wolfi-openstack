@@ -1,0 +1,65 @@
+# Copyright (c) 2024 VEXXHOST, Inc.
+# SPDX-License-Identifier: GPL-3.0-only
+
+package:
+  name: py3-xstatic-objectpath
+  description: objectpath 1.2.1 (XStatic packaging standard)
+  version: 1.2.1.0
+  epoch: 0
+  copyright:
+  dependencies:
+    provider-priority: 0
+
+vars:
+  pypi-package: xstatic-objectpath
+  import: xstatic.pkg.objectpath
+
+data:
+  - name: py-versions
+    items:
+      3.10: '310'
+
+environment:
+  contents:
+    packages:
+      - py3-supported-build-base
+
+pipeline:
+  - uses: fetch
+    with:
+      uri: https://files.pythonhosted.org/packages/23/6c/56de25d9d3be430e7de2fcf4baac10279dad78d7b16cbda339cf014c2fe5/XStatic-objectpath-1.2.1.0.tar.gz
+      expected-sha256: cd1e9f502482afcdd028821148843b07b4065c8dcea8e5cc33abb9ae1cf20b20
+
+subpackages:
+  - range: py-versions
+    name: py${{range.key}}-${{vars.pypi-package}}
+    description: python${{range.key}} version of ${{vars.pypi-package}}
+    dependencies:
+      provider-priority: ${{range.value}}
+      provides:
+        - py3-${{vars.pypi-package}}
+    pipeline:
+      - uses: py/build-wheel
+        with:
+          python: python${{range.key}}
+      - uses: strip
+    test:
+      pipeline:
+        - uses: python/import
+          with:
+            python: python${{range.key}}
+            imports: |
+              import ${{vars.import}}
+
+  - name: py3-supported-${{vars.pypi-package}}
+    description: meta package providing ${{vars.pypi-package}} for supported python versions.
+    dependencies:
+      runtime:
+        - py3.10-${{vars.pypi-package}}
+
+test:
+  pipeline:
+    - uses: python/import
+      with:
+        imports: |
+          import ${{vars.import}}

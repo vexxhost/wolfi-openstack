@@ -1,0 +1,72 @@
+# Copyright (c) 2024 VEXXHOST, Inc.
+# SPDX-License-Identifier: GPL-3.0-only
+
+package:
+  name: py3-pysmi-lextudio
+  description: A pure-Python implementation of SNMP/SMI MIB parsing and conversion library.
+  version: 1.4.3
+  epoch: 0
+  copyright:
+    - license: BSD-2-Clause
+  dependencies:
+    provider-priority: 0
+
+vars:
+  pypi-package: pysmi-lextudio
+  import: pysmi
+
+data:
+  - name: py-versions
+    items:
+      3.10: '310'
+
+environment:
+  contents:
+    packages:
+      - py3-supported-build-base
+      - py3-supported-poetry-core
+
+pipeline:
+  - uses: git-checkout
+    with:
+      repository: https://github.com/lextudio/pysmi
+      tag: v${{package.version}}
+      expected-commit: 521d4517c5d4b1612599ec96bc710bc70e46c4ac
+
+subpackages:
+  - range: py-versions
+    name: py${{range.key}}-${{vars.pypi-package}}
+    description: python${{range.key}} version of ${{vars.pypi-package}}
+    dependencies:
+      provider-priority: ${{range.value}}
+      provides:
+        - py3-${{vars.pypi-package}}
+      runtime:
+        - py${{range.key}}-jinja2=~3.1.4
+        - py${{range.key}}-ply=~3.11
+        - py${{range.key}}-requests=~2.32.3
+    pipeline:
+      - uses: py/build-wheel
+        with:
+          python: python${{range.key}}
+      - uses: strip
+    test:
+      pipeline:
+        - uses: python/import
+          with:
+            python: python${{range.key}}
+            imports: |
+              import ${{vars.import}}
+
+  - name: py3-supported-${{vars.pypi-package}}
+    description: meta package providing ${{vars.pypi-package}} for supported python versions.
+    dependencies:
+      runtime:
+        - py3.10-${{vars.pypi-package}}
+
+test:
+  pipeline:
+    - uses: python/import
+      with:
+        imports: |
+          import ${{vars.import}}

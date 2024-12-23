@@ -1,0 +1,65 @@
+# Copyright (c) 2024 VEXXHOST, Inc.
+# SPDX-License-Identifier: GPL-3.0-only
+
+package:
+  name: py3-xstatic-tv4
+  description: tv4 1.2.7 (XStatic packaging standard)
+  version: 1.2.7.0
+  epoch: 0
+  copyright:
+  dependencies:
+    provider-priority: 0
+
+vars:
+  pypi-package: xstatic-tv4
+  import: xstatic.pkg.tv4
+
+data:
+  - name: py-versions
+    items:
+      3.10: '310'
+
+environment:
+  contents:
+    packages:
+      - py3-supported-build-base
+
+pipeline:
+  - uses: fetch
+    with:
+      uri: https://files.pythonhosted.org/packages/2b/26/b07115af27b339c861b8c9a775a621524b421c898e26e015880dfb888c49/XStatic-tv4-1.2.7.0.tar.gz
+      expected-sha256: 9b4c57244e914126cdda5d8bc24698189d73800203c85b1fc945a08e25c7c713
+
+subpackages:
+  - range: py-versions
+    name: py${{range.key}}-${{vars.pypi-package}}
+    description: python${{range.key}} version of ${{vars.pypi-package}}
+    dependencies:
+      provider-priority: ${{range.value}}
+      provides:
+        - py3-${{vars.pypi-package}}
+    pipeline:
+      - uses: py/build-wheel
+        with:
+          python: python${{range.key}}
+      - uses: strip
+    test:
+      pipeline:
+        - uses: python/import
+          with:
+            python: python${{range.key}}
+            imports: |
+              import ${{vars.import}}
+
+  - name: py3-supported-${{vars.pypi-package}}
+    description: meta package providing ${{vars.pypi-package}} for supported python versions.
+    dependencies:
+      runtime:
+        - py3.10-${{vars.pypi-package}}
+
+test:
+  pipeline:
+    - uses: python/import
+      with:
+        imports: |
+          import ${{vars.import}}

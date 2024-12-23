@@ -1,0 +1,28 @@
+# Copyright (c) 2024 VEXXHOST, Inc.
+# SPDX-License-Identifier: Apache-2.0
+
+name: Validate PBR version
+
+needs:
+  packages:
+    - busybox
+    - python-3.10
+    - py3.10-pbr
+
+inputs:
+  path:
+    description: The path to the package.
+    default: .
+  expected-version:
+    description: The expected PBR version of the package.
+    default: ${{package.version}}
+
+pipeline:
+  - runs: |
+      cd ${{inputs.path}}
+      PBR_VERSION=$(python3 setup.py --version 2>/dev/null | tail -n 1 | sed s/dev//)
+
+      if [[ "$PBR_VERSION" != "${{inputs.expected-version}}" ]]; then
+        >&2 echo "ERROR: PBR version ($PBR_VERSION) does not match expected version (${{inputs.expected-version}})"
+        exit 1
+      fi

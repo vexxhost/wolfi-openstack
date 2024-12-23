@@ -1,0 +1,72 @@
+# Copyright (c) 2024 VEXXHOST, Inc.
+# SPDX-License-Identifier: GPL-3.0-only
+
+package:
+  name: py3-django-rest-swagger
+  description: Swagger UI for Django REST Framework 3.5+
+  version: 2.2.0
+  epoch: 0
+  copyright:
+    - license: BSD-2-Clause
+  dependencies:
+    provider-priority: 0
+
+vars:
+  pypi-package: django-rest-swagger
+  import: rest_framework_swagger
+
+data:
+  - name: py-versions
+    items:
+      3.10: '310'
+
+environment:
+  contents:
+    packages:
+      - py3-supported-build-base
+
+pipeline:
+  - uses: git-checkout
+    with:
+      repository: https://github.com/marcgibbons/django-rest-swagger
+      tag: ${{package.version}}
+      expected-commit: bfbe540e97d419553c5753022f4de77140a91d33
+
+subpackages:
+  - range: py-versions
+    name: py${{range.key}}-${{vars.pypi-package}}
+    description: python${{range.key}} version of ${{vars.pypi-package}}
+    dependencies:
+      provider-priority: ${{range.value}}
+      provides:
+        - py3-${{vars.pypi-package}}
+      runtime:
+        - py${{range.key}}-coreapi=~2.3.3
+        - py${{range.key}}-djangorestframework=~3.15.2
+        - py${{range.key}}-openapi-codec=~1.3.2
+        - py${{range.key}}-simplejson=~3.19.3
+    pipeline:
+      - uses: py/build-wheel
+        with:
+          python: python${{range.key}}
+      - uses: strip
+    test:
+      pipeline:
+        - uses: python/import
+          with:
+            python: python${{range.key}}
+            imports: |
+              import ${{vars.import}}
+
+  - name: py3-supported-${{vars.pypi-package}}
+    description: meta package providing ${{vars.pypi-package}} for supported python versions.
+    dependencies:
+      runtime:
+        - py3.10-${{vars.pypi-package}}
+
+test:
+  pipeline:
+    - uses: python/import
+      with:
+        imports: |
+          import ${{vars.import}}

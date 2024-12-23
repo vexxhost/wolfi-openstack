@@ -1,0 +1,87 @@
+# Copyright (c) 2024 VEXXHOST, Inc.
+# SPDX-License-Identifier: GPL-3.0-only
+
+package:
+  name: py3-python-adjutant
+  description: An admin task workflow service for openstack.
+  version: 9.0.0
+  epoch: 0
+  copyright:
+    - license: Apache-2.0
+  dependencies:
+    provider-priority: 0
+
+vars:
+  pypi-package: python-adjutant
+  import: adjutant
+
+data:
+  - name: py-versions
+    items:
+      3.10: '310'
+
+environment:
+  contents:
+    packages:
+      - py3-supported-build-base
+      - py3-supported-pbr
+
+pipeline:
+  - uses: git-checkout
+    with:
+      repository: https://opendev.org/openstack/adjutant
+      tag: ${{package.version}}
+      expected-commit: 99b0b0f75b27bf5ca04a40a1f6819c0b6d9f7e05
+  - uses: py/validate-pbr-version
+
+subpackages:
+  - range: py-versions
+    name: py${{range.key}}-${{vars.pypi-package}}
+    description: python${{range.key}} version of ${{vars.pypi-package}}
+    dependencies:
+      provider-priority: ${{range.value}}
+      provides:
+        - py3-${{vars.pypi-package}}
+      runtime:
+        - py${{range.key}}-babel=~2.16.0
+        - py${{range.key}}-confspirator=~0.3.0
+        - py${{range.key}}-decorator=~5.1.1
+        - py${{range.key}}-django-rest-swagger=~2.2.0
+        - py${{range.key}}-django=~4.2.15
+        - py${{range.key}}-djangorestframework=~3.15.2
+        - py${{range.key}}-jsonfield=~3.1.0
+        - py${{range.key}}-keystoneauth1=~5.8.0
+        - py${{range.key}}-keystonemiddleware=~10.7.1
+        - py${{range.key}}-pbr=~6.1.0
+        - py${{range.key}}-python-cinderclient=~9.6.0
+        - py${{range.key}}-python-keystoneclient=~5.5.0
+        - py${{range.key}}-python-neutronclient=~11.3.1
+        - py${{range.key}}-python-novaclient=~18.7.0
+        - py${{range.key}}-python-octaviaclient=~3.8.0
+        - py${{range.key}}-python-troveclient=~8.6.0
+        - py${{range.key}}-six=~1.16.0
+    pipeline:
+      - uses: py/build-wheel
+        with:
+          python: python${{range.key}}
+      - uses: strip
+    test:
+      pipeline:
+        - uses: python/import
+          with:
+            python: python${{range.key}}
+            imports: |
+              import ${{vars.import}}
+
+  - name: py3-supported-${{vars.pypi-package}}
+    description: meta package providing ${{vars.pypi-package}} for supported python versions.
+    dependencies:
+      runtime:
+        - py3.10-${{vars.pypi-package}}
+
+test:
+  pipeline:
+    - uses: python/import
+      with:
+        imports: |
+          import ${{vars.import}}

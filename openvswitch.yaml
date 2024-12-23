@@ -1,0 +1,107 @@
+# Copyright (c) 2024 VEXXHOST, Inc.
+# SPDX-License-Identifier: GPL-3.0-only
+
+package:
+  name: openvswitch
+  description: Open vSwitch
+  version: 3.4.0
+  epoch: 0
+  copyright:
+    - license: Apache-2.0
+  dependencies:
+    provider-priority: 0
+
+vars:
+  pypi-package: ovs
+  import: ovs._json
+
+data:
+  - name: py-versions
+    items:
+      3.10: '310'
+
+environment:
+  contents:
+    packages:
+      - busybox
+      - build-base
+      - libbpf-dev
+      - libcap-ng-dev
+      - libtool
+      - openssl-dev
+      - py3-supported-build-base
+      - py3-supported-python-dev
+      - unbound-dev
+
+pipeline:
+  - uses: git-checkout
+    with:
+      repository: https://github.com/openvswitch/ovs
+      tag: v${{package.version}}
+      expected-commit: c598c05c85b2d38874a0ce8f7f088f6aae4fdabc
+  - runs: |
+      ./boot.sh
+  # NOTE(mnaser): The following were different than the original spec file
+  #               since the headers are not in Wolfi.
+  #
+  #               Missing DPDK support
+  #               + --with-dpdk=shared
+  #               + --program-suffix=.dpdk
+  #
+  #               Missing AF_XDP support
+  #               + --enable-afxdp
+  #
+  #               Missing Systemtap package
+  #               + --enable-usdt-probes
+  - uses: autoconf/configure
+    with:
+      opts: |
+        --enable-libcapng \
+        --disable-static \
+        --enable-shared \
+        --enable-ssl \
+        --with-version-suffix=-r${{package.epoch}}
+  - uses: autoconf/make
+  - uses: autoconf/make-install
+  - uses: strip
+
+subpackages:
+  - range: py-versions
+    name: py${{range.key}}-${{vars.pypi-package}}
+    description: python${{range.key}} version of ${{vars.pypi-package}}
+    dependencies:
+      provider-priority: ${{range.value}}
+      provides:
+        - py3-${{vars.pypi-package}}
+      runtime:
+        - py${{range.key}}-six
+        - py${{range.key}}-sortedcontainers
+        # - py${{range.key}}-unbound
+    pipeline:
+      - uses: py/build-wheel
+        with:
+          cppflags: "-I ../include"
+          ldflags: "-L ${{targets.destdir}}/usr/lib"
+          python: python${{range.key}}
+          path: python
+      - uses: strip
+    test:
+      pipeline:
+        - uses: python/import
+          with:
+            python: python${{range.key}}
+            imports: |
+              import ${{vars.import}}
+
+  - name: py3-supported-${{vars.pypi-package}}
+    description: meta package providing ${{vars.pypi-package}} for supported python versions.
+    dependencies:
+      runtime:
+        - py3.10-${{vars.pypi-package}}
+
+  - name: openvswitch-libs
+    description: Open vSwitch libraries
+    pipeline:
+      - runs: |
+          mkdir -p ${{targets.subpkgdir}}/usr/lib
+          mv ${{targets.destdir}}/usr/lib/* ${{targets.subpkgdir}}/usr/lib
