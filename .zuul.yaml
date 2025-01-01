@@ -1,0 +1,179 @@
+- job:
+    name: wolfi-openstack-build-melange-packages
+    parent: build-melange-packages
+    abstract: true
+    vars:
+      ensure_melange_version: 0.18.3
+      build_melange_package_env_file: "build-{{ ansible_architecture }}.env"
+      build_melange_package_pipeline_dir: ./pipelines/
+      build_melange_package_license: GPL-3.0-only
+
+- job:
+    name: wolfi-openstack-build-melange-packages-amd64
+    parent: wolfi-openstack-build-melange-packages
+    nodeset:
+      nodes:
+        - name: ubuntu-jammy
+          label: jammy-2c-8g
+
+- job:
+    name: wolfi-openstack-build-melange-packages-arm64
+    parent: wolfi-openstack-build-melange-packages
+    nodeset:
+      nodes:
+        - name: ubuntu-jammy
+          label: jammy-2c-8g-arm64
+
+- secret:
+    name: wolfi-openstack-melange-rsa
+    data:
+      public_key: |
+        -----BEGIN PUBLIC KEY-----
+        MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEA9/rZdcRmj9nyMfqPJfdp
+        Kii5NhyQgdU7ztHIG8BBkzFYoKQh2xRg3014NGwDpIGQRNpGjnsiWrb8QNwz9Qdr
+        WEsAL/Ro6cXaTwhdhF1ldDnHhUsy3A8KVgUErZv+XQZdaB5ONZeH/kiYwF0fEKY3
+        1P647YfxkK+Kt/pAy/1eiCWE8L0RYgKdwJrl4gcw1kYMRh9YjaQM4NOamhrrVkX2
+        mUFYTgsYHIEUX3NWmjHrqYlqRJrVchrEFFcAEcKIllbAscagy8t881ZbLhdIA3nX
+        /uzbeki6U5pk6A7M1PSXz9KFm9KfTVIen585/dIA1JRAm2PIs/YDDNzR8bPRW6Dy
+        w5/sZ5QsY9B9ZVorsSrZdIzh1oLqQ2y7QT5H58ttVlBUc7ZR5NbN0yR4TiCAWR84
+        koXmu5krjm7d2LQBwpHWaoA07ulAbbKTaRyms3eaRliAO0g9AupSEhoGM+sWca98
+        whFrFQNQEF2+cO0RXAdiaT6iXfcwp3KP+yYWSGpQfTJtnGnz4X79AY1JUwH9+qUP
+        S9GSC/RhFml17A1Yta+eDf1eiLyfQNsdrUQa/0Vw8GGIn3Q1ZT6/qJNvNlbjKHAY
+        D+rf5tLaHhoU1cDM7clZ+Q1rd/Xbg/ct7KDDKC8qVlx1Bg+Vt9LP2iN6TStg/PZp
+        nqK4XSBhWgNCnrvqPEKT93MCAwEAAQ==
+        -----END PUBLIC KEY-----
+      private_key: !encrypted/pkcs1-oaep
+        - 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
+
+- job:
+    name: wolfi-openstack-upload-melange-packages
+    parent: wolfi-openstack-build-melange-packages
+    abstract: true
+    secrets:
+      - name: apk_signing_key
+        secret: wolfi-openstack-melange-rsa
+        pass-to-parent: true
+    vars:
+      build_melange_package_signing_key: "{{ apk_signing_key.private_key }}"
+
+- job:
+    name: wolfi-openstack-upload-melange-packages-amd64
+    parent: wolfi-openstack-upload-melange-packages
+    nodeset:
+      nodes:
+        - name: ubuntu-jammy
+          label: jammy-2c-8g
+
+- job:
+    name: wolfi-openstack-upload-melange-packages-arm64
+    parent: wolfi-openstack-upload-melange-packages
+    nodeset:
+      nodes:
+        - name: ubuntu-jammy
+          label: jammy-2c-8g-arm64
+
+- job:
+    name: wolfi-openstack-promote-melange-packages
+    parent: promote-melange-packages
+    abstract: true
+    vars:
+      ensure_melange_version: 0.18.3
+      promote_melange_packages_api: "https://ci.atmosphere.dev/api/tenant/{{ zuul.tenant }}"
+      promote_melange_packages_static_server: static.atmosphere.dev
+      promote_melange_packages_static_path: /static/packages/oss
+      promote_container_image_pipeline: gate
+
+- job:
+    name: wolfi-openstack-promote-melange-packages-amd64
+    parent: wolfi-openstack-promote-melange-packages
+    vars:
+      promote_container_image_job: wolfi-openstack-upload-melange-packages-amd64
+
+- job:
+    name: wolfi-openstack-promote-melange-packages-arm64
+    parent: wolfi-openstack-promote-melange-packages
+    vars:
+      promote_container_image_job: wolfi-openstack-upload-melange-packages-arm64
+
+- project:
+    check:
+      jobs:
+        - wolfi-openstack-build-melange-packages-amd64
+        - wolfi-openstack-build-melange-packages-arm64
+    gate:
+      jobs:
+        - wolfi-openstack-upload-melange-packages-amd64
+        - wolfi-openstack-upload-melange-packages-arm64
+    promote:
+      jobs:
+        - wolfi-openstack-promote-melange-packages-amd64
+        - wolfi-openstack-promote-melange-packages-arm64
