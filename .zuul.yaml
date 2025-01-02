@@ -150,19 +150,19 @@
       promote_melange_packages_api: "https://ci.atmosphere.dev/api/tenant/{{ zuul.tenant }}"
       promote_melange_packages_static_server: static.atmosphere.dev
       promote_melange_packages_static_path: /static/packages/oss
-      promote_container_image_pipeline: gate
+      promote_melange_packages_pipeline: gate
 
 - job:
     name: wolfi-openstack-promote-melange-packages-amd64
     parent: wolfi-openstack-promote-melange-packages
     vars:
-      promote_container_image_job: wolfi-openstack-upload-melange-packages-amd64
+      promote_melange_packages_job: wolfi-openstack-upload-melange-packages-amd64
 
 - job:
     name: wolfi-openstack-promote-melange-packages-arm64
     parent: wolfi-openstack-promote-melange-packages
     vars:
-      promote_container_image_job: wolfi-openstack-upload-melange-packages-arm64
+      promote_melange_packages_job: wolfi-openstack-upload-melange-packages-arm64
 
 - project:
     check:
