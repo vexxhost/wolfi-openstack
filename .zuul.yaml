@@ -6,6 +6,11 @@
       build_melange_package_env_file: "build-{{ ansible_architecture }}.env"
       build_melange_package_pipeline_dir: ./pipelines/
       build_melange_package_license: GPL-3.0-only
+      build_melange_package_repositories:
+        - url: https://packages.wolfi.dev/os
+          key: https://packages.wolfi.dev/os/wolfi-signing.rsa.pub
+        - url: https://static.atmosphere.dev/packages/oss/2024.2
+          key: https://static.atmosphere.dev/packages/oss/signing.rsa.pub
 
 - job:
     name: wolfi-openstack-build-melange-packages-amd64
@@ -148,7 +153,7 @@
       ensure_melange_version: 0.18.3
       promote_melange_packages_api: "https://ci.atmosphere.dev/api/tenant/{{ zuul.tenant }}"
       promote_melange_packages_static_server_host: static.atmosphere.dev
-      promote_melange_packages_static_path: /static/packages/oss
+      promote_melange_packages_static_path: /static/packages/oss/2024.2
       promote_melange_packages_pipeline: gate
       promote_melange_packages_static_server_known_hosts: |
         static.atmosphere.dev ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC0K3c7PQsgHclpdqJ9z4+g+F1DLtiEzyjbvW2hHA0soy4L7me4KOhfr94XaIOD2utdceQCudVU+uEhhrnqBUPST3pjUVqzap88ZUrXZ7PjkxC7tCSUmp9j906vcCc29YmkKzbkYSgEX06jpFmVAE8TaA1oSvmOHkrayo5H4UT8IVvk8G5heqXvpHSCZP1K7rzGwO0mRTKqUHY1UdYT+D1ZIIwYuFY8+KIJAWO2UtJ7+SIOqzE9tJW8cP6BO+E+/7zL4FT4Co51wncsMIxn+R/kuk2bQnePVNnguzMHcJ5nJktPT8y16Dl2F2n4GCWEJcLCHNYEYY/zLSZoM0evLVMijY48JZDha7pOo45UDa63qSec8TvmnVvfdwspjLiFElwuUQcXuhzT2pfgTgG3TY0JBl6MXCxx2cgkqcPNNwblVG0VqivqfxNAlWsUMriC3mcC43cp/AIHYW/PPS4iALj6/IP/09+ZF61foKCsro+4SC5y8REUBkSEZc4pXpJxgvs=
