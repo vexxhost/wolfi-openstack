@@ -5,7 +5,7 @@ package:
   name: py3-markupsafe
   description: Safely add untrusted strings to HTML/XML markup.
   version: 2.1.5
-  epoch: 1
+  epoch: 0
   copyright:
     - license: BSD-2-Clause
   dependencies:
