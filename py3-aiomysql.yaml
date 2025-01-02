@@ -5,7 +5,7 @@ package:
   name: py3-aiomysql
   description: MySQL driver for asyncio.
   version: 0.2.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: MIT
   dependencies:

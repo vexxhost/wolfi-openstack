@@ -2,7 +2,7 @@ package:
   name: kubernetes-entrypoint
   description: Pod sequencing functionality for Kubernetes
   version: 0.3.1-43-g73814d3
-  epoch: 0
+  epoch: 1
   copyright:
     - license: Apache-2.0
 
