@@ -5,7 +5,7 @@ package:
   name: py3-asgiref
   description: ASGI specs, helper code, and adapters
   version: 3.8.1
-  epoch: 0
+  epoch: 1
   copyright:
     - license: BSD-2-Clause
   dependencies:

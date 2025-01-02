@@ -5,7 +5,7 @@ package:
   name: py3-cliff
   description: Command Line Interface Formulation Framework
   version: 4.7.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: Apache-2.0
   dependencies:

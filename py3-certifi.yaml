@@ -5,7 +5,7 @@ package:
   name: py3-certifi
   description: Python package for providing Mozilla's CA Bundle.
   version: 2024.12.14
-  epoch: 0
+  epoch: 1
   copyright:
     - license: MPL-2.0
   dependencies:
