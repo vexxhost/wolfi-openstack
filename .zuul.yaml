@@ -118,16 +118,16 @@
     name: wolfi-openstack-upload-melange-packages
     parent: wolfi-openstack-build-melange-packages
     abstract: true
-    secrets:
-      - name: apk_signing_key
-        secret: wolfi-openstack-melange-rsa
-        pass-to-parent: true
     vars:
       build_melange_package_signing_key: "{{ apk_signing_key.private_key }}"
 
 - job:
     name: wolfi-openstack-upload-melange-packages-amd64
     parent: wolfi-openstack-upload-melange-packages
+    secrets:
+      - name: apk_signing_key
+        secret: wolfi-openstack-melange-rsa
+        pass-to-parent: true
     nodeset:
       nodes:
         - name: ubuntu-jammy
@@ -136,6 +136,10 @@
 - job:
     name: wolfi-openstack-upload-melange-packages-arm64
     parent: wolfi-openstack-upload-melange-packages
+    secrets:
+      - name: apk_signing_key
+        secret: wolfi-openstack-melange-rsa
+        pass-to-parent: true
     nodeset:
       nodes:
         - name: ubuntu-jammy
@@ -145,10 +149,6 @@
     name: wolfi-openstack-promote-melange-packages
     parent: promote-melange-packages
     abstract: true
-    secrets:
-      - name: apk_signing_key
-        secret: wolfi-openstack-melange-rsa
-        pass-to-parent: true
     vars:
       ensure_melange_version: 0.18.3
       promote_melange_packages_signing_key: "{{ apk_signing_key.private_key }}"
@@ -164,12 +164,20 @@
 - job:
     name: wolfi-openstack-promote-melange-packages-amd64
     parent: wolfi-openstack-promote-melange-packages
+    secrets:
+      - name: apk_signing_key
+        secret: wolfi-openstack-melange-rsa
+        pass-to-parent: true
     vars:
       promote_melange_packages_job: wolfi-openstack-upload-melange-packages-amd64
 
 - job:
     name: wolfi-openstack-promote-melange-packages-arm64
     parent: wolfi-openstack-promote-melange-packages
+    secrets:
+      - name: apk_signing_key
+        secret: wolfi-openstack-melange-rsa
+        pass-to-parent: true
     vars:
       promote_melange_packages_job: wolfi-openstack-upload-melange-packages-arm64
 
