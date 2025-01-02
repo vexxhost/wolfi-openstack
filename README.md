@@ -4,6 +4,9 @@ This repository contains [melange](https://github.com/chainguard-dev/melange) de
 all of the OpenStack services.  This repository is used to build the packages that are used in the
 lightweight Wolfi based images used by [Atmosphere](https://github.com/vexxhost/atmosphere).
 
+The package repository is located at https://packages.atmosphere.dev/oss and the signing public key
+is at https://packages.atmosphere.dev/oss/signing.rsa.pub.
+
 ## Usage
 
 ### Building a package
