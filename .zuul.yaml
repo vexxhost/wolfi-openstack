@@ -148,7 +148,7 @@
     vars:
       ensure_melange_version: 0.18.3
       promote_melange_packages_api: "https://ci.atmosphere.dev/api/tenant/{{ zuul.tenant }}"
-      promote_melange_packages_static_server: static.atmosphere.dev
+      promote_melange_packages_static_server_host: static.atmosphere.dev
       promote_melange_packages_static_path: /static/packages/oss
       promote_melange_packages_pipeline: gate
 
