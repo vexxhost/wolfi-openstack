@@ -5,7 +5,7 @@ package:
   name: py3-aniso8601
   description: A library for parsing ISO 8601 strings.
   version: 9.0.1
-  epoch: 0
+  epoch: 1
   copyright:
     - license: BSD-2-Clause
   dependencies:

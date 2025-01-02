@@ -5,7 +5,7 @@ package:
   name: py3-alembic
   description: A database migration tool for SQLAlchemy.
   version: 1.13.2
-  epoch: 0
+  epoch: 1
   copyright:
     - license: MIT
   dependencies:
