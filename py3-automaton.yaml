@@ -5,7 +5,7 @@ package:
   name: py3-automaton
   description: Friendly state machines for python.
   version: 3.2.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: Apache-2.0
   dependencies:
