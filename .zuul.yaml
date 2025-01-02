@@ -151,6 +151,10 @@
       promote_melange_packages_static_server_host: static.atmosphere.dev
       promote_melange_packages_static_path: /static/packages/oss
       promote_melange_packages_pipeline: gate
+      promote_melange_packages_static_server_known_hosts: |
+        static.atmosphere.dev ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC0K3c7PQsgHclpdqJ9z4+g+F1DLtiEzyjbvW2hHA0soy4L7me4KOhfr94XaIOD2utdceQCudVU+uEhhrnqBUPST3pjUVqzap88ZUrXZ7PjkxC7tCSUmp9j906vcCc29YmkKzbkYSgEX06jpFmVAE8TaA1oSvmOHkrayo5H4UT8IVvk8G5heqXvpHSCZP1K7rzGwO0mRTKqUHY1UdYT+D1ZIIwYuFY8+KIJAWO2UtJ7+SIOqzE9tJW8cP6BO+E+/7zL4FT4Co51wncsMIxn+R/kuk2bQnePVNnguzMHcJ5nJktPT8y16Dl2F2n4GCWEJcLCHNYEYY/zLSZoM0evLVMijY48JZDha7pOo45UDa63qSec8TvmnVvfdwspjLiFElwuUQcXuhzT2pfgTgG3TY0JBl6MXCxx2cgkqcPNNwblVG0VqivqfxNAlWsUMriC3mcC43cp/AIHYW/PPS4iALj6/IP/09+ZF61foKCsro+4SC5y8REUBkSEZc4pXpJxgvs=
+        static.atmosphere.dev ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBDQ0c2XU24FaPOiSr6iC4KXlHSBPQN5qLcox+UeszqfB+ldqu1YYStovbfdZ51EvZyURRNY3tbKuNu1b8i01bG8=
+        static.atmosphere.dev ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDcZguOy3fhvPuBqcpeV/B5Ahc3mQpkVoHb/jSNAQHCB
 
 - job:
     name: wolfi-openstack-promote-melange-packages-amd64
