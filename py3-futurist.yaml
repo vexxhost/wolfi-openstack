@@ -5,7 +5,7 @@ package:
   name: py3-futurist
   description: Useful additions to futures, from the future.
   version: 3.0.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: Apache-2.0
   dependencies:
