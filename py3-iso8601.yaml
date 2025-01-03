@@ -5,7 +5,7 @@ package:
   name: py3-iso8601
   description: Simple module to parse ISO 8601 dates
   version: 2.1.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: MIT
   dependencies:
