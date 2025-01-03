@@ -1,6 +1,7 @@
 - job:
     name: wolfi-openstack-build-melange-packages
     parent: build-melange-packages
+    timeout: 3600
     vars:
       ensure_melange_version: 0.18.3
       build_melange_package_env_file: "build-{{ ansible_architecture }}.env"
