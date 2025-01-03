@@ -5,7 +5,7 @@ package:
   name: py3-httpx
   description: The next generation HTTP client.
   version: 0.27.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: BSD-2-Clause
   dependencies:
