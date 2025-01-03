@@ -5,7 +5,7 @@ package:
   name: py3-hyperlink
   description: A featureful, immutable, and correct URL for Python.
   version: 21.0.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: MIT
   dependencies:
