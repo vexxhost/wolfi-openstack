@@ -5,7 +5,7 @@ package:
   name: py3-apscheduler
   description: In-process task scheduler with Cron-like capabilities
   version: 3.10.4
-  epoch: 1
+  epoch: 2
   copyright:
     - license: MIT
   dependencies:

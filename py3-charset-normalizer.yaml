@@ -5,7 +5,7 @@ package:
   name: py3-charset-normalizer
   description: The Real First Universal Charset Detector. Open, modern and actively maintained alternative to Chardet.
   version: 3.3.2
-  epoch: 1
+  epoch: 2
   copyright:
     - license: MIT
   dependencies:

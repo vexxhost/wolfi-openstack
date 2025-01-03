@@ -5,7 +5,7 @@ package:
   name: py3-attrs
   description: Classes Without Boilerplate
   version: 24.2.0
-  epoch: 1
+  epoch: 2
   copyright:
     - license: MIT
   dependencies:
