@@ -5,7 +5,7 @@ package:
   name: py3-jsonpatch
   description: Apply JSON-Patches (RFC 6902) 
   version: 1.33
-  epoch: 0
+  epoch: 1
   copyright:
     - license: BSD-2-Clause
   dependencies:

@@ -5,7 +5,7 @@ package:
   name: py3-mistral-lib
   description: Mistral shared routings and utilities (Actions API, YAQL functions API, data types etc.)
   version: 3.0.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: Apache-2.0
   dependencies:

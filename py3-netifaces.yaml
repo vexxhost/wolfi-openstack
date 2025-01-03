@@ -5,7 +5,7 @@ package:
   name: py3-netifaces
   description: Portable network interface information.
   version: 0.11.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: MIT
   dependencies:
