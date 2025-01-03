@@ -5,7 +5,7 @@ package:
   name: py3-coreapi
   description: Python client library for Core API.
   version: 2.3.3
-  epoch: 0
+  epoch: 1
   copyright:
     - license: BSD-2-Clause
   dependencies:

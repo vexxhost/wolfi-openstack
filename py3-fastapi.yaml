@@ -5,7 +5,7 @@ package:
   name: py3-fastapi
   description: FastAPI framework, high performance, easy to learn, fast to code, ready for production
   version: 0.58.1
-  epoch: 0
+  epoch: 1
   copyright:
     - license: MIT
   dependencies:

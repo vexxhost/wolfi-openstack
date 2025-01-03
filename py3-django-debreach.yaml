@@ -5,7 +5,7 @@ package:
   name: py3-django-debreach
   description: Adds middleware to give some added protection against the BREACH attack in Django.
   version: 2.1.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: BSD-2-Clause
   dependencies:

@@ -5,7 +5,7 @@ package:
   name: py3-google-api-core
   description: Google API client core library
   version: 2.19.1
-  epoch: 0
+  epoch: 1
   copyright:
     - license: Apache-2.0
   dependencies:

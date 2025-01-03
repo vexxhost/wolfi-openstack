@@ -5,7 +5,7 @@ package:
   name: py3-django-appconf
   description: A helper class for handling configuration defaults of packaged apps gracefully.
   version: 1.0.6
-  epoch: 0
+  epoch: 1
   copyright:
     - license: BSD-2-Clause
   dependencies:

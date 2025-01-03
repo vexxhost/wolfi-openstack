@@ -5,7 +5,7 @@ package:
   name: py3-exceptiongroup
   description: Backport of PEP 654 (exception groups)
   version: 1.2.2
-  epoch: 0
+  epoch: 1
   copyright:
     - license: MIT
   dependencies:

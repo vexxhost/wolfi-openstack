@@ -5,7 +5,7 @@ package:
   name: py3-cursive
   description: Cursive implements OpenStack-specific validation of digital signatures.
   version: 0.2.3
-  epoch: 0
+  epoch: 1
   copyright:
     - license: Apache-2.0
   dependencies:

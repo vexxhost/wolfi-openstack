@@ -5,7 +5,7 @@ package:
   name: py3-cloudkitty
   description: Rating as a Service component for OpenStack
   version: 21.0.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: Apache-2.0
   dependencies:

@@ -5,7 +5,7 @@ package:
   name: py3-ecdsa
   description: ECDSA cryptographic signature library (pure python)
   version: 0.19.0
-  epoch: 0
+  epoch: 1
   copyright:
   dependencies:
     provider-priority: 0
