@@ -5,7 +5,7 @@ package:
   name: py3-jmespath
   description: JSON Matching Expressions
   version: 1.0.1
-  epoch: 0
+  epoch: 1
   copyright:
     - license: MIT
   dependencies:

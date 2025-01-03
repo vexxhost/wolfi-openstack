@@ -5,7 +5,7 @@ package:
   name: py3-httplib2
   description: A comprehensive HTTP client library.
   version: 0.22.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: MIT
   dependencies:

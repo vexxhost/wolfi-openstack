@@ -5,7 +5,7 @@ package:
   name: py3-ironic-lib
   description: Ironic common library
   version: 6.2.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: Apache-2.0
   dependencies:
