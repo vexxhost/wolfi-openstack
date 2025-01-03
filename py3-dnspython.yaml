@@ -5,7 +5,7 @@ package:
   name: py3-dnspython
   description: DNS toolkit
   version: 2.6.1
-  epoch: 1
+  epoch: 2
   copyright:
     - license: ISC
   dependencies:

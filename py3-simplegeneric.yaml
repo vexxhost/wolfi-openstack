@@ -5,7 +5,7 @@ package:
   name: py3-simplegeneric
   description: Simple generic functions (similar to Python's own len(), pickle.dump(), etc.)
   version: 0.8.1
-  epoch: 0
+  epoch: 1
   copyright:
     - license: ZPL-2.1
   dependencies:

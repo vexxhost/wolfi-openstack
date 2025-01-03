@@ -5,7 +5,7 @@ package:
   name: py3-xstatic-term-js
   description: term.js 0.0.7 (XStatic packaging standard)
   version: 0.0.7.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: MIT
   dependencies:

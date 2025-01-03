@@ -5,7 +5,7 @@ package:
   name: py3-ptyprocess
   description: Run a subprocess in a pseudo terminal
   version: 0.7.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: ISC
   dependencies:

@@ -5,7 +5,7 @@ package:
   name: py3-oauthlib
   description: A generic, spec-compliant, thorough implementation of the OAuth request-signing logic
   version: 3.2.2
-  epoch: 0
+  epoch: 1
   copyright:
     - license: BSD-2-Clause
   dependencies:

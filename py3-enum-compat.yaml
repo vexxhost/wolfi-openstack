@@ -5,7 +5,7 @@ package:
   name: py3-enum-compat
   description: enum/enum34 compatibility package
   version: 0.0.3
-  epoch: 1
+  epoch: 2
   copyright:
   dependencies:
     provider-priority: 0

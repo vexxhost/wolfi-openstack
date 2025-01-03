@@ -5,7 +5,7 @@ package:
   name: py3-googleapis-common-protos
   description: Common protobufs used in Google APIs
   version: 1.63.2
-  epoch: 1
+  epoch: 2
   copyright:
     - license: Apache-2.0
   dependencies:

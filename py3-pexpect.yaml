@@ -5,7 +5,7 @@ package:
   name: py3-pexpect
   description: Pexpect allows easy control of interactive console applications.
   version: 4.9.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: ISC
   dependencies:

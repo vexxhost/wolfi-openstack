@@ -5,7 +5,7 @@ package:
   name: py3-grpcio
   description: HTTP/2-based RPC framework
   version: 1.66.0
-  epoch: 1
+  epoch: 2
   copyright:
     - license: Apache-2.0
   dependencies:

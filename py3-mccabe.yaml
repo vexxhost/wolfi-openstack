@@ -5,7 +5,7 @@ package:
   name: py3-mccabe
   description: McCabe checker, plugin for flake8
   version: 0.7.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: MIT
   dependencies:

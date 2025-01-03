@@ -5,7 +5,7 @@ package:
   name: py3-datetimerange
   description: DateTimeRange is a Python library to handle a time range. e.g. check whether a time is within the time range, get the intersection of time ranges, truncate a time range, iterate through a time range, and so forth.
   version: 2.3.0
-  epoch: 1
+  epoch: 2
   copyright:
     - license: MIT
   dependencies:

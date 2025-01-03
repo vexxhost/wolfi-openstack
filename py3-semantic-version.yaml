@@ -5,7 +5,7 @@ package:
   name: py3-semantic-version
   description: A library implementing the 'SemVer' scheme.
   version: 2.10.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: BSD-2-Clause
   dependencies:

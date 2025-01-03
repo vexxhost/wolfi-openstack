@@ -5,7 +5,7 @@ package:
   name: py3-ujson
   description: Ultra fast JSON encoder and decoder for Python
   version: 5.10.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: BSD-2-Clause
   dependencies:

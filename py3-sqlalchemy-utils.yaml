@@ -5,7 +5,7 @@ package:
   name: py3-sqlalchemy-utils
   description: Various utility functions for SQLAlchemy.
   version: 0.41.2
-  epoch: 0
+  epoch: 1
   copyright:
     - license: BSD-2-Clause
   dependencies:

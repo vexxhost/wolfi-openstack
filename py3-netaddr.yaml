@@ -5,7 +5,7 @@ package:
   name: py3-netaddr
   description: A network address manipulation library for Python
   version: 0.10.1
-  epoch: 0
+  epoch: 1
   copyright:
     - license: BSD-2-Clause
     - license: MIT

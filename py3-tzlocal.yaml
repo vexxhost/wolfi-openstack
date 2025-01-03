@@ -5,7 +5,7 @@ package:
   name: py3-tzlocal
   description: tzinfo object for the local timezone
   version: 5.2
-  epoch: 0
+  epoch: 1
   copyright:
     - license: MIT
   dependencies:

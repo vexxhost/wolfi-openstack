@@ -5,7 +5,7 @@ package:
   name: py3-wsme
   description: Simplify the writing of REST APIs, and extend them with additional protocols.
   version: 0.12.1
-  epoch: 0
+  epoch: 1
   copyright:
     - license: MIT
   dependencies:

@@ -5,7 +5,7 @@ package:
   name: py3-paste
   description: Tools for using a Web Server Gateway Interface stack
   version: 3.10.1
-  epoch: 0
+  epoch: 1
   copyright:
     - license: MIT
   dependencies:

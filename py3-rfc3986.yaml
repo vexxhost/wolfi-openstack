@@ -5,7 +5,7 @@ package:
   name: py3-rfc3986
   description: Validating URI References per RFC 3986
   version: 2.0.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: Apache-2.0
   dependencies:

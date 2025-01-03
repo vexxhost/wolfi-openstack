@@ -5,7 +5,7 @@ package:
   name: py3-pyroute2
   description: Python Netlink library
   version: 0.7.12
-  epoch: 0
+  epoch: 1
   copyright:
     - license: GPL-2.0-or-later
     - license: Apache-2.0

@@ -5,7 +5,7 @@ package:
   name: py3-wcwidth
   description: Measures the displayed width of unicode strings in a terminal
   version: 0.2.13
-  epoch: 0
+  epoch: 1
   copyright:
     - license: MIT
   dependencies:

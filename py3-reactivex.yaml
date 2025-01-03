@@ -5,7 +5,7 @@ package:
   name: py3-reactivex
   description: ReactiveX (Rx) for Python
   version: 4.0.4
-  epoch: 0
+  epoch: 1
   copyright:
     - license: MIT
   dependencies:

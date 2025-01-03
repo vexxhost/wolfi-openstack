@@ -5,7 +5,7 @@ package:
   name: py3-urllib3
   description: HTTP library with thread-safe connection pooling, file post, and more.
   version: 1.26.19
-  epoch: 0
+  epoch: 1
   copyright:
     - license: MIT
   dependencies:

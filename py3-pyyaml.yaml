@@ -5,7 +5,7 @@ package:
   name: py3-pyyaml
   description: YAML parser and emitter for Python
   version: 6.0.2
-  epoch: 0
+  epoch: 1
   copyright:
     - license: MIT
   dependencies:

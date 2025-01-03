@@ -5,7 +5,7 @@ package:
   name: py3-pyasn1-modules
   description: A collection of ASN.1-based protocols modules
   version: 0.4.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: BSD-2-Clause
   dependencies:

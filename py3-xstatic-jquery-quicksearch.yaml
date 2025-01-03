@@ -5,7 +5,7 @@ package:
   name: py3-xstatic-jquery-quicksearch
   description: JQuery.quicksearch 2.0.3 (XStatic packaging standard)
   version: 2.0.3.2
-  epoch: 0
+  epoch: 1
   copyright:
   dependencies:
     provider-priority: 0

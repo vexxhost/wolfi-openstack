@@ -5,7 +5,7 @@ package:
   name: py3-taskflow
   description: Taskflow structured state management library.
   version: 5.9.1
-  epoch: 0
+  epoch: 1
   copyright:
     - license: Apache-2.0
   dependencies:

@@ -5,7 +5,7 @@ package:
   name: py3-xstatic-angular-schema-form
   description: Angular-Schema-Form 0.8.13 (XStatic packaging standard)
   version: 0.8.13.0
-  epoch: 0
+  epoch: 1
   copyright:
   dependencies:
     provider-priority: 0

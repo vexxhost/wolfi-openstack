@@ -5,7 +5,7 @@ package:
   name: py3-jsonpath-rw
   description: A robust and significantly extended implementation of JSONPath for Python, with a clear AST for metaprogramming.
   version: 1.4.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: Apache-2.0
   dependencies:

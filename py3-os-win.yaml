@@ -5,7 +5,7 @@ package:
   name: py3-os-win
   description: Windows / Hyper-V library for OpenStack projects.
   version: 5.9.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: Apache-2.0
   dependencies:

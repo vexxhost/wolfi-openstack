@@ -5,7 +5,7 @@ package:
   name: py3-djangorestframework
   description: Web APIs for Django, made easy.
   version: 3.15.2
-  epoch: 1
+  epoch: 2
   copyright:
     - license: BSD-2-Clause
   dependencies:

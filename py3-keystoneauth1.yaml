@@ -5,7 +5,7 @@ package:
   name: py3-keystoneauth1
   description: Authentication Library for OpenStack Identity
   version: 5.8.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: Apache-2.0
   dependencies:

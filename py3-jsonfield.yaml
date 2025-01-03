@@ -5,7 +5,7 @@ package:
   name: py3-jsonfield
   description: A reusable Django field that allows you to store validated JSON in your model.
   version: 3.1.0
-  epoch: 0
+  epoch: 1
   copyright:
   dependencies:
     provider-priority: 0

@@ -5,7 +5,7 @@ package:
   name: py3-tosca-parser
   description: Parser for TOSCA Simple Profile in YAML.
   version: 2.11.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: Apache-2.0
   dependencies:

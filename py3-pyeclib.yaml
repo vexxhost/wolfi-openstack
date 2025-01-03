@@ -5,7 +5,7 @@ package:
   name: py3-pyeclib
   description: This library provides a simple Python interface for implementing erasure codes.  To obtain the best possible performance, the underlying erasure code algorithms are written in C.
   version: 1.6.1
-  epoch: 0
+  epoch: 1
   copyright:
     - license: BSD-2-Clause
   dependencies:

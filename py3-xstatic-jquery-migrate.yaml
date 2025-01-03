@@ -5,7 +5,7 @@ package:
   name: py3-xstatic-jquery-migrate
   description: JQuery-Migrate 3.3.2 (XStatic packaging standard)
   version: 3.3.2.1
-  epoch: 0
+  epoch: 1
   copyright:
   dependencies:
     provider-priority: 0

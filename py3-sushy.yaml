@@ -5,7 +5,7 @@ package:
   name: py3-sushy
   description: Sushy is a small Python library to communicate with Redfish based systems
   version: 5.2.1
-  epoch: 0
+  epoch: 1
   copyright:
     - license: Apache-2.0
   dependencies:

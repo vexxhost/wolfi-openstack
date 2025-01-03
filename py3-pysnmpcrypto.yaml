@@ -5,7 +5,7 @@ package:
   name: py3-pysnmpcrypto
   description: Strong cryptography support for PySNMP (SNMP library for Python)
   version: 0.0.4
-  epoch: 0
+  epoch: 1
   copyright:
     - license: BSD-2-Clause
   dependencies:

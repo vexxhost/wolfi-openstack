@@ -5,7 +5,7 @@ package:
   name: py3-python-dateutil
   description: Extensions to the standard Python datetime module
   version: 2.9.0.post0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: BSD-2-Clause
     - license: Apache-2.0

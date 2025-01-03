@@ -5,7 +5,7 @@ package:
   name: py3-construct
   description: A powerful declarative symmetric parser/builder for binary data
   version: 2.10.70
-  epoch: 1
+  epoch: 2
   copyright:
     - license: MIT
   dependencies:

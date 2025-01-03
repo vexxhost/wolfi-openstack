@@ -5,7 +5,7 @@ package:
   name: py3-xstatic-jquery-ui
   description: jquery-ui 1.13.0 (XStatic packaging standard)
   version: 1.13.0.1
-  epoch: 0
+  epoch: 1
   copyright:
   dependencies:
     provider-priority: 0

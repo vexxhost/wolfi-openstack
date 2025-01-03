@@ -5,7 +5,7 @@ package:
   name: py3-text-unidecode
   description: The most basic Text - -Unidecode port
   version: 1.3
-  epoch: 0
+  epoch: 1
   copyright:
     - license: Artistic-2.0
     - license: GPL-3.0-or-later

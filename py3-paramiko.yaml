@@ -5,7 +5,7 @@ package:
   name: py3-paramiko
   description: SSH2 protocol library
   version: 3.4.1
-  epoch: 0
+  epoch: 1
   copyright:
     - license: LGPL-3.0-or-later
   dependencies:

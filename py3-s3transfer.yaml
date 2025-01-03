@@ -5,7 +5,7 @@ package:
   name: py3-s3transfer
   description: An Amazon S3 Transfer Manager
   version: 0.10.2
-  epoch: 0
+  epoch: 1
   copyright:
     - license: Apache-2.0
   dependencies:

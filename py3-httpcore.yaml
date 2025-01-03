@@ -5,7 +5,7 @@ package:
   name: py3-httpcore
   description: A minimal low-level HTTP client.
   version: 1.0.5
-  epoch: 1
+  epoch: 2
   copyright:
     - license: BSD-2-Clause
   dependencies:

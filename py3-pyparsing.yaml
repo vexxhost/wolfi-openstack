@@ -5,7 +5,7 @@ package:
   name: py3-pyparsing
   description: pyparsing module - Classes and methods to define and execute parsing grammars
   version: 3.1.2
-  epoch: 0
+  epoch: 1
   copyright:
     - license: MIT
   dependencies:

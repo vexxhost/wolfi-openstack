@@ -5,7 +5,7 @@ package:
   name: py3-itypes
   description: Simple immutable types for python.
   version: 1.2.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: BSD-2-Clause
   dependencies:

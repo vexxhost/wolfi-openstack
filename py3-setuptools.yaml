@@ -5,7 +5,7 @@ package:
   name: py3-setuptools
   description: Easily download, build, install, upgrade, and uninstall Python packages
   version: 75.6.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: MIT
   dependencies:

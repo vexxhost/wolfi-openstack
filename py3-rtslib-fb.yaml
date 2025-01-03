@@ -5,7 +5,7 @@ package:
   name: py3-rtslib-fb
   description: API for Linux kernel SCSI target (aka LIO)
   version: 2.1.76
-  epoch: 0
+  epoch: 1
   copyright:
     - license: Apache-2.0
   dependencies:

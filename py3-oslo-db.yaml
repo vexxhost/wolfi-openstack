@@ -5,7 +5,7 @@ package:
   name: py3-oslo-db
   description: Oslo Database library
   version: 16.0.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: Apache-2.0
   dependencies:

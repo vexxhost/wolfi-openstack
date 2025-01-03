@@ -5,7 +5,7 @@ package:
   name: py3-uritemplate
   description: Implementation of RFC 6570 URI Templates
   version: 4.1.1
-  epoch: 0
+  epoch: 1
   copyright:
     - license: Apache-2.0
     - license: BSD-2-Clause

@@ -5,7 +5,7 @@ package:
   name: py3-psutil
   description: Cross-platform lib for process and system monitoring in Python.
   version: 6.0.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: BSD-2-Clause
   dependencies:

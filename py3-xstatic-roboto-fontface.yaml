@@ -5,7 +5,7 @@ package:
   name: py3-xstatic-roboto-fontface
   description: roboto-fontface 0.5.0 (XStatic packaging standard)
   version: 0.5.0.0
-  epoch: 0
+  epoch: 1
   copyright:
   dependencies:
     provider-priority: 0

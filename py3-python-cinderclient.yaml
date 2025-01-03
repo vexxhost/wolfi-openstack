@@ -5,7 +5,7 @@ package:
   name: py3-python-cinderclient
   description: OpenStack Block Storage API Client Library
   version: 9.6.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: Apache-2.0
   dependencies:

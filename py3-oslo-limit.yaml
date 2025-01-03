@@ -5,7 +5,7 @@ package:
   name: py3-oslo-limit
   description: Limit enforcement library to assist with quota calculation.
   version: 2.5.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: Apache-2.0
   dependencies:
