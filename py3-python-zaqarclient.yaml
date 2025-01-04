@@ -5,7 +5,7 @@ package:
   name: py3-python-zaqarclient
   description: Client Library for OpenStack Zaqar Messaging API
   version: 2.8.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: Apache-2.0
   dependencies:

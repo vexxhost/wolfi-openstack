@@ -5,7 +5,7 @@ package:
   name: py3-scrypt
   description: Bindings for the scrypt key derivation function library
   version: 0.8.24
-  epoch: 0
+  epoch: 1
   copyright:
     - license: BSD-2-Clause
   dependencies:

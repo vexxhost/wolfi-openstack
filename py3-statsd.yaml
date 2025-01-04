@@ -5,7 +5,7 @@ package:
   name: py3-statsd
   description: A simple statsd client.
   version: 4.0.1
-  epoch: 0
+  epoch: 1
   copyright:
     - license: MIT
   dependencies:

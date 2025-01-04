@@ -5,7 +5,7 @@ package:
   name: py3-six
   description: Python 2 and 3 compatibility utilities
   version: 1.16.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: MIT
   dependencies:

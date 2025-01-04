@@ -5,7 +5,7 @@ package:
   name: py3-rsa
   description: Pure-Python RSA implementation
   version: 4.9
-  epoch: 0
+  epoch: 1
   copyright:
     - license: Apache-2.0
   dependencies:

@@ -5,7 +5,7 @@ package:
   name: py3-python-watcher
   description: OpenStack Watcher provides a flexible and scalable resource optimization service for multi-tenant OpenStack-based clouds.
   version: 13.0.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: Apache-2.0
   dependencies:

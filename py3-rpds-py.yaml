@@ -5,7 +5,7 @@ package:
   name: py3-rpds-py
   description: Python bindings to Rust's persistent data structures (rpds)
   version: 0.20.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: MIT
   dependencies:

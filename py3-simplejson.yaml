@@ -5,7 +5,7 @@ package:
   name: py3-simplejson
   description: Simple, fast, extensible JSON encoder/decoder for Python
   version: 3.19.3
-  epoch: 0
+  epoch: 1
   copyright:
     - license: MIT
     - license: AFL-3.0

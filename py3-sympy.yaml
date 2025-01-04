@@ -5,7 +5,7 @@ package:
   name: py3-sympy
   description: Computer algebra system (CAS) in Python
   version: 1.13.2
-  epoch: 0
+  epoch: 1
   copyright:
     - license: BSD-2-Clause
   dependencies:

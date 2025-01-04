@@ -5,7 +5,7 @@ package:
   name: py3-rjsmin
   description: Javascript Minifier
   version: 1.2.2
-  epoch: 0
+  epoch: 1
   copyright:
   dependencies:
     provider-priority: 0
