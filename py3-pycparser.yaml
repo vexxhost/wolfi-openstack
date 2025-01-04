@@ -5,7 +5,7 @@ package:
   name: py3-pycparser
   description: C parser in Python
   version: 2.22
-  epoch: 0
+  epoch: 1
   copyright:
     - license: BSD-2-Clause
   dependencies:

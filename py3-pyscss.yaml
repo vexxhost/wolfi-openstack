@@ -5,7 +5,7 @@ package:
   name: py3-pyscss
   description: pyScss, a Scss compiler for Python
   version: 1.4.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: MIT
   dependencies:

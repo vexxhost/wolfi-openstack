@@ -5,7 +5,7 @@ package:
   name: py3-pycdlib
   description: Pure python ISO manipulation library
   version: 1.14.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: LGPL-2.0
   dependencies:

@@ -5,7 +5,7 @@ package:
   name: py3-python-novaclient
   description: Client library for OpenStack Compute API
   version: 18.7.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: Apache-2.0
   dependencies:
