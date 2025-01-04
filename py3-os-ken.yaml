@@ -5,7 +5,7 @@ package:
   name: py3-os-ken
   description: A component-based software defined networking framework for OpenStack.
   version: 2.10.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: Apache-2.0
   dependencies:

@@ -5,7 +5,7 @@ package:
   name: py3-os-vif
   description: A library for plugging and unplugging virtual interfaces in OpenStack.
   version: 3.7.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: Apache-2.0
   dependencies:

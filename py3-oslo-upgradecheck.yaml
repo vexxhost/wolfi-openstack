@@ -5,7 +5,7 @@ package:
   name: py3-oslo-upgradecheck
   description: Common code for writing OpenStack upgrade checks
   version: 2.4.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: Apache-2.0
   dependencies:

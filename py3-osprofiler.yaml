@@ -5,7 +5,7 @@ package:
   name: py3-osprofiler
   description: OpenStack Profiler Library
   version: 4.2.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: Apache-2.0
   dependencies:

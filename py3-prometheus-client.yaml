@@ -5,7 +5,7 @@ package:
   name: py3-prometheus-client
   description: Python client for the Prometheus monitoring system.
   version: 0.20.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: Apache-2.0
   dependencies:

@@ -5,7 +5,7 @@ package:
   name: py3-passlib
   description: comprehensive password hashing framework supporting over 30 schemes
   version: 1.7.4
-  epoch: 0
+  epoch: 1
   copyright:
   dependencies:
     provider-priority: 0
