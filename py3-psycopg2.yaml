@@ -26,7 +26,7 @@ environment:
       - py3-supported-build-base
       - postgresql-dev
       - build-base
-      - python-3.10
+      - python-3.10-dev
 
 pipeline:
   - uses: git-checkout
