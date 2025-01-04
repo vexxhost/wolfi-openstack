@@ -16,7 +16,6 @@ pipeline:
       repository: https://opendev.org/airship/kubernetes-entrypoint
       expected-commit: faed152be037ba4d7898e7df3ab4713b6a1e0d1a
       depth: -1
-  - uses: git-version-check
   - uses: go/build
     with:
       packages: .
