@@ -5,7 +5,7 @@ package:
   name: py3-xstatic-angular-lrdragndrop
   description: Angular-lrdragndrop 1.0.2 (XStatic packaging standard)
   version: 1.0.2.6
-  epoch: 0
+  epoch: 1
   copyright:
   dependencies:
     provider-priority: 0

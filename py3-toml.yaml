@@ -5,7 +5,7 @@ package:
   name: py3-toml
   description: Python Library for Tom's Obvious, Minimal Language
   version: 0.10.2
-  epoch: 0
+  epoch: 1
   copyright:
     - license: MIT
   dependencies:
