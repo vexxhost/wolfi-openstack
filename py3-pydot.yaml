@@ -5,7 +5,7 @@ package:
   name: py3-pydot
   description: Python interface to Graphviz's Dot
   version: 3.0.1
-  epoch: 0
+  epoch: 1
   copyright:
     - license: MIT
   dependencies:

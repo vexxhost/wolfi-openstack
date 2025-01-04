@@ -5,7 +5,7 @@ package:
   name: py3-python-observabilityclient
   description: OpenStack Observability Client
   version: 0.3.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: Apache-2.0
   dependencies:

@@ -5,7 +5,7 @@ package:
   name: py3-python-jose
   description: JOSE implementation in Python
   version: 3.3.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: MIT
   dependencies:

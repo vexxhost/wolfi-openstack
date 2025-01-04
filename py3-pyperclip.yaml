@@ -5,7 +5,7 @@ package:
   name: py3-pyperclip
   description: A cross-platform clipboard module for Python. (Only handles plain text for now.)
   version: 1.9.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: BSD-2-Clause
   dependencies:

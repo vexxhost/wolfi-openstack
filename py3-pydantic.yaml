@@ -5,7 +5,7 @@ package:
   name: py3-pydantic
   description: Data validation and settings management using python type hints
   version: 1.10.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: MIT
   dependencies:

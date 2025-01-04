@@ -5,7 +5,7 @@ package:
   name: py3-python-adjutant
   description: An admin task workflow service for openstack.
   version: 9.0.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: Apache-2.0
   dependencies:

@@ -5,7 +5,7 @@ package:
   name: py3-python-designateclient
   description: OpenStack DNS-as-a-Service - Client
   version: 6.1.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: Apache-2.0
   dependencies:
