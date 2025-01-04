@@ -5,7 +5,7 @@ package:
   name: py3-xstatic
   description: XStatic base package with minimal support code
   version: 1.0.3
-  epoch: 0
+  epoch: 1
   copyright:
     - license: MIT
   dependencies:

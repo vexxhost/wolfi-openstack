@@ -5,7 +5,7 @@ package:
   name: py3-yappi
   description: Yet Another Python Profiler
   version: 1.6.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: MIT
   dependencies:

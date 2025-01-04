@@ -5,7 +5,7 @@ package:
   name: py3-zstd
   description: ZSTD Bindings for Python
   version: 1.5.5.1
-  epoch: 0
+  epoch: 1
   copyright:
     - license: BSD-2-Clause
   dependencies:
