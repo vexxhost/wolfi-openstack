@@ -5,7 +5,7 @@ package:
   name: py3-xstatic-spin
   description: Spin 1.2.5 (XStatic packaging standard)
   version: 1.2.5.3
-  epoch: 0
+  epoch: 1
   copyright:
   dependencies:
     provider-priority: 0

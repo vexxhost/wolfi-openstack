@@ -5,7 +5,7 @@ package:
   name: py3-zaqar
   description: OpenStack Queuing and Notification Service
   version: 19.0.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: Apache-2.0
   dependencies:

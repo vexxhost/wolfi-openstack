@@ -5,7 +5,7 @@ package:
   name: py3-zipp
   description: Backport of pathlib-compatible object wrapper for zip files
   version: 3.20.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: MIT
   dependencies:
