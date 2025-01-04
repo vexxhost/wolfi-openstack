@@ -5,7 +5,7 @@ package:
   name: py3-uvicorn
   description: The lightning-fast ASGI server.
   version: 0.17.6
-  epoch: 0
+  epoch: 1
   copyright:
     - license: BSD-2-Clause
   dependencies:

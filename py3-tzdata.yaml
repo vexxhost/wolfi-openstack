@@ -5,7 +5,7 @@ package:
   name: py3-tzdata
   description: Provider of IANA time zone data
   version: 2024.1
-  epoch: 0
+  epoch: 1
   copyright:
     - license: Apache-2.0
   dependencies:

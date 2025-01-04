@@ -5,7 +5,7 @@ package:
   name: py3-xmltodict
   description: Makes working with XML feel like you are working with JSON
   version: 0.13.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: MIT
   dependencies:

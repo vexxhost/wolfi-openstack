@@ -5,7 +5,7 @@ package:
   name: py3-vitrage
   description: The OpenStack RCA Service
   version: 13.0.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: Apache-2.0
   dependencies:

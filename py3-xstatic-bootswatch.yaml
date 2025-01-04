@@ -5,7 +5,7 @@ package:
   name: py3-xstatic-bootswatch
   description: bootswatch 3.3.7 (XStatic packaging standard)
   version: 3.3.7.0
-  epoch: 0
+  epoch: 1
   copyright:
   dependencies:
     provider-priority: 0

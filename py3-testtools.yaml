@@ -5,7 +5,7 @@ package:
   name: py3-testtools
   description: Extensions to the Python standard library unit testing framework
   version: 2.7.2
-  epoch: 0
+  epoch: 1
   copyright:
     - license: MIT
   dependencies:

@@ -5,7 +5,7 @@ package:
   name: py3-xstatic-d3
   description: D3 3.5.17 (XStatic packaging standard)
   version: 3.5.17.0
-  epoch: 0
+  epoch: 1
   copyright:
   dependencies:
     provider-priority: 0
