@@ -5,7 +5,7 @@ package:
   name: py3-redis
   description: Python client for Redis database and key-value store
   version: 5.0.8
-  epoch: 0
+  epoch: 1
   copyright:
     - license: MIT
   dependencies:

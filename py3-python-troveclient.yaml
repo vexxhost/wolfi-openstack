@@ -5,7 +5,7 @@ package:
   name: py3-python-troveclient
   description: Client library for OpenStack DBaaS API
   version: 8.6.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: Apache-2.0
   dependencies:

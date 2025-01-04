@@ -5,7 +5,7 @@ package:
   name: py3-sortedcontainers
   description: Sorted Containers -- Sorted List, Sorted Dict, Sorted Set
   version: 2.4.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: Apache-2.0
   dependencies:
