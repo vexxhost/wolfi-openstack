@@ -5,7 +5,7 @@ package:
   name: py3-os-brick
   description: OpenStack Cinder brick library for managing local volume attaches
   version: 6.9.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: Apache-2.0
   dependencies:

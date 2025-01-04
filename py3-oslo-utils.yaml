@@ -5,7 +5,7 @@ package:
   name: py3-oslo-utils
   description: Oslo Utility library
   version: 7.3.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: Apache-2.0
   dependencies:

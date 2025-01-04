@@ -5,7 +5,7 @@ package:
   name: py3-pecan
   description: A WSGI object-dispatching web framework, designed to be lean and fast, with few dependencies.
   version: 1.5.1
-  epoch: 0
+  epoch: 1
   copyright:
     - license: BSD-2-Clause
   dependencies:

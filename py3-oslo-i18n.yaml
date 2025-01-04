@@ -5,7 +5,7 @@ package:
   name: py3-oslo-i18n
   description: Oslo i18n library
   version: 6.4.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: Apache-2.0
   dependencies:
