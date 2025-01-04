@@ -5,7 +5,7 @@ package:
   name: py3-microversion-parse
   description: OpenStack microversion header parser
   version: 2.0.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: Apache-2.0
   dependencies:

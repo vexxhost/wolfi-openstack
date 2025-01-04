@@ -5,7 +5,7 @@ package:
   name: py3-masakari
   description: Virtual Machine High Availability (VMHA) service for OpenStack
   version: 18.0.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: Apache-2.0
   dependencies:

@@ -5,7 +5,7 @@ package:
   name: py3-ldappool
   description: A simple connector pool for python-ldap.
   version: 3.0.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: MPL-2.0
   dependencies:

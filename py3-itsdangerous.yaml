@@ -5,7 +5,7 @@ package:
   name: py3-itsdangerous
   description: Safely pass data to untrusted environments and back.
   version: 2.2.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: BSD-2-Clause
   dependencies:

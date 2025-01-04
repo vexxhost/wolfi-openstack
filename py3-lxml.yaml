@@ -5,7 +5,7 @@ package:
   name: py3-lxml
   description: Powerful and Pythonic XML processing library combining libxml2/libxslt with the ElementTree API.
   version: 5.3.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: BSD-2-Clause
   dependencies:

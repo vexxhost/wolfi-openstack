@@ -5,7 +5,7 @@ package:
   name: py3-jsonschema
   description: An implementation of JSON Schema validation for Python
   version: 4.19.2
-  epoch: 0
+  epoch: 1
   copyright:
     - license: MIT
   dependencies:

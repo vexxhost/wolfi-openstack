@@ -5,7 +5,7 @@ package:
   name: py3-jsonpath-rw-ext
   description: Extensions for JSONPath RW
   version: 1.2.2
-  epoch: 0
+  epoch: 1
   copyright:
     - license: Apache-2.0
   dependencies:

@@ -5,7 +5,7 @@ package:
   name: py3-loguru
   description: Python logging made (stupidly) simple
   version: 0.5.3
-  epoch: 0
+  epoch: 1
   copyright:
     - license: MIT
   dependencies:

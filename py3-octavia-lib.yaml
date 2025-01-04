@@ -5,7 +5,7 @@ package:
   name: py3-octavia-lib
   description: A library to support Octavia provider drivers.
   version: 3.6.0
-  epoch: 0
+  epoch: 1
   copyright:
     - license: Apache-2.0
   dependencies:
