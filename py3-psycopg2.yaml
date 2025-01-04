@@ -23,10 +23,10 @@ data:
 environment:
   contents:
     packages:
-      - py3-supported-build-base
-      - postgresql-dev
       - build-base
-      - python-3.10-dev
+      - postgresql-dev
+      - py3-supported-build-base
+      - py3-supported-python-dev
 
 pipeline:
   - uses: git-checkout
