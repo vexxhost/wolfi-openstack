@@ -1,0 +1,72 @@
+# Copyright (c) 2024 VEXXHOST, Inc.
+# SPDX-License-Identifier: GPL-3.0-only
+
+package:
+  name: uwsgi
+  description: uWSGI application server container
+  version: 2.0.28
+  epoch: 0
+  copyright:
+    - license: GPL-2.0-only
+
+vars:
+  package: uwsgi
+  pypi-package: zun
+  import: zun
+
+data:
+  - name: py-versions
+    items:
+      3.10: "310"
+
+environment:
+  contents:
+    packages:
+      - build-base
+      - busybox
+      - jansson-dev
+      - libcap-dev
+      - libxml2-dev
+      - openssl-dev
+      - pcre2-dev
+      - py3-supported-build-base
+      - py3-supported-python-dev
+      - yaml-dev
+
+pipeline:
+  - uses: git-checkout
+    with:
+      repository: https://github.com/unbit/uwsgi
+      tag: ${{package.version}}
+      expected-commit: 02a2fc47c7cd32a5c0d1e07808f36cbe1533ecbe
+  - runs: mv config.ini buildconf/wolfi.ini
+  - runs: |
+      cat <<EOF >> buildconf/wolfi.ini
+      append_version = r${{package.epoch}}
+      EOF
+
+subpackages:
+  - name: ${{vars.package}}-core
+    description: core package for ${{vars.package}}
+    pipeline:
+      - runs: python3.10 uwsgiconfig.py --build wolfi
+      - runs: |
+          mkdir -p ${{targets.subpkgdir}}/usr/bin
+          mv uwsgi ${{targets.subpkgdir}}/usr/bin/uwsgi
+      - uses: strip
+
+  - range: py-versions
+    name: uwsgi-plugin-python${{range.key}}
+    description: python${{range.key}} plugin of uwsgi
+    dependencies:
+      provider-priority: ${{range.value}}
+      provides:
+        - uwsgi-plugin-python3
+      runtime:
+        - uwsgi-core
+    pipeline:
+      - runs: python${{range.key}} uwsgiconfig.py --plugin plugins/python wolfi python${{range.value}}
+      - runs: |
+          mkdir -p ${{targets.subpkgdir}}/usr/lib/uwsgi
+          mv python${{range.value}}_plugin.so ${{targets.subpkgdir}}/usr/lib/uwsgi/python${{range.value}}_plugin.so
+      - uses: strip
