@@ -5,7 +5,7 @@ package:
   name: py3-keystonemiddleware
   description: Middleware for OpenStack Identity
   version: 10.7.1
-  epoch: 1
+  epoch: 2
   copyright:
     - license: Apache-2.0
   dependencies:
@@ -43,6 +43,7 @@ subpackages:
       provides:
         - py3-${{vars.pypi-package}}
       runtime:
+        - py${{range.key}}-cryptography=~42.0.8
         - py${{range.key}}-keystoneauth1=~5.8.0
         - py${{range.key}}-oslo-cache=~3.8.0
         - py${{range.key}}-oslo-config=~9.6.0
